@@ -1,6 +1,6 @@
-# Approved Prompt Records
+# Prompt Records
 
-This folder contains reviewed, reusable Codex prompts. Each record sits in a category folder and follows the standard metadata format.
+This folder contains reusable Codex prompt records. Each record sits in a category folder and follows the standard metadata format.
 
 ## Categories
 
@@ -12,6 +12,6 @@ This folder contains reviewed, reusable Codex prompts. Each record sits in a cat
 - `technical-work`
 - `writing-communication`
 
-No records have been published yet.
+No prompt records have been added yet. Form submissions appear immediately in the [repository issue list](https://github.com/michaelsheerin/oci-strategic-install-codex-repo/issues).
 
-To contribute, use the [submission form](../.github/ISSUE_TEMPLATE/prompt-submission.yml) or follow [CONTRIBUTING.md](../CONTRIBUTING.md).
+To contribute, use the [submission form](https://github.com/michaelsheerin/oci-strategic-install-codex-repo/issues/new?template=prompt-submission.yml) or follow [CONTRIBUTING.md](../CONTRIBUTING.md).
