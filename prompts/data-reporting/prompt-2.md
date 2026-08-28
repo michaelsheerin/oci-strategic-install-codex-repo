@@ -15,6 +15,8 @@ Once this prompt is executed, it is the sales team responsibility to manually re
 
 
 ## Expected output and next steps
+Once this prompt is executed, it is the sales team responsibility to manually reconcile the current CPQ rate card with the generated Adjusted-Discount and validate the target Selling Price matches the Gold-Standard.
+Output will produce an Excel file, called ;CPQ-<quote-number>-Reconciliation' with a list of SKUs with discrepancies in CPQ Selling Price compared to the local gold-standard, including correct Selling Price and recommended Discount %. This will require manual reconciliation by sales team for each SKU. 
 
 <html xmlns:o="urn:schemas-microsoft-com:office:office"
 xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"
@@ -49,7 +51,9 @@ gold-standard-rate-card | Local   copy of the approved gold-standard data. Zero 
 
 ## Additional instructions and notes
 
-Complete prompt 'Generate Gold Standard Rate Card' prior to processing this.
+1. Complete prompt 'Generate Gold Standard Rate Card' prior to processing this.
+2. Submit required Inputs into the prompt code.
+3. Perform manual CPQ reconciliation after prompt completes and generates Excel output with discrepancies.
 
 ## Demo
 
