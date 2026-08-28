@@ -139,6 +139,12 @@ input:focus, select:focus { outline: 3px solid rgba(189, 44, 44, .18); border-co
 .record-content h2, .document-content h2 { font-size: 1.35rem; }
 .record-content p, .record-content li, .document-content p, .document-content li { color: var(--muted); }
 .record-content pre, .document-content pre { overflow-x: auto; margin: 0; padding: 21px; border-radius: 6px; background: #202a33; color: #edf2f5; font-size: .9rem; line-height: 1.6; white-space: pre-wrap; }
+.rich-table { overflow-x: auto; margin: 18px 0; border: 1px solid var(--line); border-radius: 6px; background: var(--white); }
+.rich-table table { width: 100%; min-width: 640px; border-collapse: collapse; text-align: left; }
+.rich-table th, .rich-table td { padding: 13px 15px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.rich-table th { background: var(--surface); color: #44515d; font-size: .8rem; font-weight: 760; }
+.rich-table td { color: var(--muted); font-size: .9rem; line-height: 1.45; }
+.rich-table tbody tr:last-child td { border-bottom: 0; }
 .definition-list { display: grid; gap: 16px; margin: 0; }
 .definition-list div { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 16px; }
 .definition-list dt { color: var(--muted); font-size: .84rem; font-weight: 760; }

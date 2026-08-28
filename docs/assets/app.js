@@ -8,6 +8,45 @@ function escapeHtml(value) {
   return String(value ?? "").replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[character]);
 }
 
+function cleanText(value) {
+  const source = String(value ?? "");
+  if (!/<\s*\/?(?:html|head|body|div|meta|table|tr|td|th|p|br)\b/i.test(source)) return source;
+  const placeholders = [];
+  const protectedSource = source.replace(/<([A-Z][A-Z0-9_-]*)>/g, (_, token) => "__PROMPT_PLACEHOLDER_" + (placeholders.push(token) - 1) + "__");
+  const documentFragment = new DOMParser().parseFromString(protectedSource, "text/html");
+  return documentFragment.body.textContent.replace(/__PROMPT_PLACEHOLDER_(\d+)__/g, (_, index) => "<" + placeholders[Number(index)] + ">").replace(/\u00a0/g, " ").trim();
+}
+
+function formattedContent(value) {
+  const lines = cleanText(value || "Not provided.").replace(/\r/g, "").split("\n").map((line) => line.trim()).filter(Boolean);
+  const blocks = [];
+  const addParagraph = (paragraphLines) => {
+    if (paragraphLines.length) blocks.push("<p>" + escapeHtml(paragraphLines.join("\n")).replaceAll("\n", "<br>") + "</p>");
+  };
+  let paragraphLines = [];
+  for (let index = 0; index < lines.length; index += 1) {
+    const isTable = lines[index].includes("|") && index + 1 < lines.length && /^[\s|:-]+$/.test(lines[index + 1]);
+    if (!isTable) {
+      paragraphLines.push(lines[index]);
+      continue;
+    }
+    addParagraph(paragraphLines);
+    paragraphLines = [];
+    const cells = (line) => line.split("|").map((cell) => cell.trim()).filter(Boolean);
+    const headers = cells(lines[index]);
+    const rows = [];
+    index += 2;
+    while (index < lines.length && lines[index].includes("|")) {
+      rows.push(cells(lines[index]));
+      index += 1;
+    }
+    index -= 1;
+    blocks.push('<div class="rich-table"><table><thead><tr>' + headers.map((cell) => "<th>" + escapeHtml(cell) + "</th>").join("") + "</tr></thead><tbody>" + rows.map((row) => "<tr>" + headers.map((_, cellIndex) => "<td>" + escapeHtml(row[cellIndex] || "") + "</td>").join("") + "</tr>").join("") + "</tbody></table></div>");
+  }
+  addParagraph(paragraphLines);
+  return blocks.join("");
+}
+
 function name(value) {
   return String(value || "other").replaceAll("-", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
@@ -54,11 +93,12 @@ function library() {
 }
 
 function prompt(record) {
-  const inputs = (record.requiredInputs || []).length ? "<ul>" + record.requiredInputs.map((value) => "<li>" + escapeHtml(value) + "</li>").join("") + "</ul>" : "<p>Not provided.</p>";
+  const requiredInputValues = record.requiredInputs || [];
+  const inputs = requiredInputValues.length && requiredInputValues.every((value) => !cleanText(value).includes("|") && !cleanText(value).includes("\n")) ? "<ul>" + requiredInputValues.map((value) => "<li>" + escapeHtml(cleanText(value)) + "</li>").join("") + "</ul>" : formattedContent(requiredInputValues.join("\n"));
   const source = record.sourceIssue ? '<a href="' + escapeHtml(record.sourceIssue) + '" target="_blank" rel="noreferrer">Original form submission</a>' : "Not provided.";
   const recording = record.demoRecording ? '<a href="' + escapeHtml(record.demoRecording) + '" target="_blank" rel="noreferrer">Open recording</a>' : "Not provided.";
   const section = (heading, content) => "<section><h2>" + heading + "</h2>" + content + "</section>";
-  const paragraph = (value) => "<p>" + escapeHtml(value || "Not provided.").replaceAll("\n", "<br>") + "</p>";
+  const paragraph = (value) => formattedContent(value);
   const details = '<div class="detail-table"><table><tbody><tr><th>Category</th><td>' + name(record.category) + '</td></tr><tr><th>Last updated</th><td>' + escapeHtml(record.lastReviewed || "Not provided") + '</td></tr><tr><th>Record path</th><td><code>' + escapeHtml(record.path) + "</code></td></tr></tbody></table></div>";
   app.innerHTML = page("Prompt record", escapeHtml(record.title), escapeHtml(record.description || "Reusable prompt record."), '<section class="container record-layout"><div class="record-actions"><a class="button button-secondary" href="' + href("library") + '">Back to library</a><a class="button" href="' + href("edit", { prompt: record.path }) + '">Edit this prompt</a></div><article class="record-content">' + section("Use case and purpose", paragraph(record.useCase || record.description)) + section("Required inputs", inputs) + section("Expected output and next steps", paragraph([record.expectedOutput, record.nextSteps].filter(Boolean).join("\n\n"))) + section("Additional instructions and notes", paragraph(record.additionalInstructionsNotes)) + section("Demo", '<dl class="definition-list"><div><dt>Recommended</dt><dd>' + (record.demoRecommended ? "Yes" : "No") + "</dd></div><div><dt>Recording</dt><dd>" + recording + "</dd></div></dl>") + section("Prompt text", "<pre><code>" + escapeHtml(record.promptText || "No prompt text provided.") + "</code></pre>") + section("Contact", '<dl class="definition-list"><div><dt>Name</dt><dd>' + escapeHtml(record.contactName || "Not provided.") + "</dd></div><div><dt>Email</dt><dd>" + escapeHtml(record.contactEmail || "Not provided.") + "</dd></div></dl>") + section("Source", "<p>" + source + "</p>") + section("Record details", details) + "</article></section>");
 }
