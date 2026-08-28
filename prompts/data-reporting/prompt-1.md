@@ -7,26 +7,11 @@ This prompt establishes a local Gold Standard Rate Card from a previously valida
 The prompt also compares the prior validated CPQ rate card to the downloaded SPA rate card for an additional validation layer. It identifies differences but does not determine which system is correct or change source-system pricing. The sales team reviews reported differences at its discretion, validates the agreed net unit price against ordering documents and deal-team guidance, and completes any required manual updates to the local gold-standard rate card.
 
 ## Required inputs
-
-- <html xmlns:o="urn:schemas-microsoft-com:office:office"
-- xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"
-- xmlns="http://www.w3.org/TR/REC-html40">
-- <head>
-- <meta name=ProgId content=OneNote.File>
-- <meta name=Generator content="Microsoft OneNote 15">
-- </head>
-- <body lang=en-US style='font-family:Calibri;font-size:11.0pt'>
-- <!--StartFragment-->
-- <div style='direction:ltr'>
-- Input | Requirement
-- -- | --
-- SPA Rate Card file | Download   the SPA rate card before starting. Provide the local file path. The source   supports CSV or Excel, with variable length and column order.
-- Validated CPQ link | Provide   a link to a CPQ quote whose rate card has been manually validated with   confidence. This quote supplies the proposed gold-standard baseline.
-- Output folder | Optional.   Specify a folder only when it differs from the SPA source folder.
-- </div>
-- <!--EndFragment-->
-- </body>
-- </html>
+| Input | Requirement |
+| --- | --- |
+| SPA Rate Card file | Download the SPA rate card before starting. Provide the local file path. The source supports CSV or Excel, with variable length and column order. |
+| Validated CPQ link | Provide a link to a CPQ quote whose rate card has been manually validated with confidence. This quote supplies the proposed gold-standard baseline. |
+| Output folder | Optional. Specify a folder only when it differs from the SPA source folder. |
 
 ## Expected output and next steps
 
