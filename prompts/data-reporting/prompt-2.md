@@ -7,7 +7,11 @@ This prompt reconciles a newly generated CPQ rate card against the approved loca
 Once this prompt is executed, it is the sales team responsibility to manually reconcile the current CPQ rate card with the generated Adjusted-Discount and validate the target Selling Price matches the Gold-Standard.
 
 ## Required inputs
-
+| Input | Requirement |
+| --- | --- |
+| Output folder | Optional. Specify a folder only when it differs from the Gold Standard Rate Card file location. |
+| Gold Standard Rate Card file | Provide the local `Gold-Standard-Rate-Card.xlsx` file created through Prompt 1, or an approved existing gold-standard file. |
+| Current CPQ link | Provide the CPQ quote link for the rate card being evaluated. Codex extracts the dynamic CPQ identifier from the link for file and tab naming. |
 
 
 ## Expected output and next steps
