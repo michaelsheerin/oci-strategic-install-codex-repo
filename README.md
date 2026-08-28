@@ -7,7 +7,7 @@ The library turns effective individual workflows into reusable team assets. Each
 ## Start here
 
 - [Browse prompts](https://michaelsheerin.github.io/oci-strategic-install-codex-repo/)
-- [Submit a prompt](https://github.com/michaelsheerin/oci-strategic-install-codex-repo/issues/new?template=prompt-submission.yml)
+- [Submit a prompt](https://michaelsheerin.github.io/oci-strategic-install-codex-repo/?view=submit)
 - [Read the contribution guide](CONTRIBUTING.md)
 - [Use the prompt record template](prompts/_template.md)
 
