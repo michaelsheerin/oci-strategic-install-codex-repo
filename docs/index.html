@@ -56,10 +56,12 @@
             <p id="result-count" class="result-count" aria-live="polite"></p>
           </div>
 
-          <div class="filters">
+          <p class="filter-description">Search covers titles, categories, use cases, prompt text, required inputs, expected output, notes, tags, and contact details.</p>
+
+          <div class="filters" aria-label="Prompt filters">
             <label>
               <span>Search</span>
-              <input id="search" type="search" placeholder="Search titles, uses cases, and tags">
+              <input id="search" type="search" placeholder="Search the full prompt library">
             </label>
             <label>
               <span>Category</span>
@@ -67,9 +69,43 @@
                 <option value="">All categories</option>
               </select>
             </label>
+            <label>
+              <span>Demo</span>
+              <select id="demo">
+                <option value="">Any demo status</option>
+                <option value="recommended">Demo recommended</option>
+                <option value="not-recommended">No demo recommended</option>
+              </select>
+            </label>
+            <label>
+              <span>Sort</span>
+              <select id="sort">
+                <option value="title-asc">Title, A to Z</option>
+                <option value="title-desc">Title, Z to A</option>
+                <option value="newest">Newest first</option>
+                <option value="oldest">Oldest first</option>
+              </select>
+            </label>
+            <button id="clear-filters" class="button button-secondary clear-filters" type="button">Clear filters</button>
           </div>
 
-          <div id="prompt-list" class="prompt-list" aria-live="polite"></div>
+          <div id="category-facets" class="category-facets" aria-label="Filter by category"></div>
+
+          <div class="table-wrap">
+            <table class="prompt-table">
+              <thead>
+                <tr>
+                  <th scope="col">Prompt</th>
+                  <th scope="col">Use case</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Demo</th>
+                  <th scope="col">Updated</th>
+                  <th scope="col"><span class="sr-only">Open</span></th>
+                </tr>
+              </thead>
+              <tbody id="prompt-list" aria-live="polite"></tbody>
+            </table>
+          </div>
         </div>
       </section>
 
