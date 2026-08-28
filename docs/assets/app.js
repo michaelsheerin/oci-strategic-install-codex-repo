@@ -25,7 +25,7 @@ function render() {
 
   if (!visible.length) {
     const hasFilters = searchInput.value || categorySelect.value;
-    promptList.innerHTML = `<div class="empty-state">${hasFilters ? "No prompts match the selected filters." : `The catalog is ready for its first approved prompt. <a href="${repositoryUrl}/issues/new?template=prompt-submission.yml">Submit a prompt</a> to get started.`}</div>`;
+    promptList.innerHTML = `<div class="empty-state">${hasFilters ? "No prompts match the selected filters." : `The catalog is ready for its first prompt. <a href="${repositoryUrl}/issues/new?template=prompt-submission.yml">Submit a prompt</a> to get started.`}</div>`;
     return;
   }
 
