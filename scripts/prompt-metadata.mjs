@@ -16,14 +16,17 @@ export function promptFiles(root) {
 
 export function parsePrompt(filePath) {
   const content = fs.readFileSync(filePath, "utf8").replace(/\r\n/g, "\n");
-  const match = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
-  if (!match) return { filePath, metadata: {}, body: content, errors: ["Missing YAML front matter."] };
+  const frontMatter = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  const metadataComment = content.match(/\n<!-- prompt-metadata\n([\s\S]*?)\n-->\s*$/);
+  if (!frontMatter && !metadataComment) return { filePath, metadata: {}, body: content, errors: ["Missing prompt metadata."] };
+  const metadataText = frontMatter ? frontMatter[1] : metadataComment[1];
+  const body = frontMatter ? frontMatter[2] : content.slice(0, metadataComment.index).trimEnd();
 
   const metadata = {};
   const errors = [];
   let activeList = null;
 
-  for (const line of match[1].split("\n")) {
+  for (const line of metadataText.split("\n")) {
     const listItem = line.match(/^\s+-\s+(.+)$/);
     if (listItem && activeList) {
       metadata[activeList].push(unquote(listItem[1]));
@@ -49,7 +52,7 @@ export function parsePrompt(filePath) {
     metadata[key] = unquote(rawValue);
   }
 
-  return { filePath, metadata, body: match[2], errors };
+  return { filePath, metadata, body, errors };
 }
 
 function unquote(value) {
