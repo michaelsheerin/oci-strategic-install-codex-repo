@@ -53,5 +53,13 @@ export function parsePrompt(filePath) {
 }
 
 function unquote(value) {
-  return value.trim().replace(/^"(.*)"$/, "$1");
+  const trimmed = value.trim();
+  if (trimmed.startsWith('"') && trimmed.endsWith('"')) {
+    try {
+      return JSON.parse(trimmed);
+    } catch {
+      return trimmed.slice(1, -1);
+    }
+  }
+  return trimmed;
 }
