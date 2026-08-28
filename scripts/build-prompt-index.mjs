@@ -6,7 +6,7 @@ import { parsePrompt, promptFiles } from "./prompt-metadata.mjs";
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const promptsRoot = path.join(repositoryRoot, "prompts");
 const indexPath = path.join(promptsRoot, "README.md");
-const submissionUrl = "https://github.com/michaelsheerin/oci-strategic-install-codex-repo/issues/new?template=prompt-submission.yml";
+const submissionUrl = "https://michaelsheerin.github.io/oci-strategic-install-codex-repo/?view=submit";
 const browseUrl = "https://michaelsheerin.github.io/oci-strategic-install-codex-repo/";
 
 function displayCategory(category) {
