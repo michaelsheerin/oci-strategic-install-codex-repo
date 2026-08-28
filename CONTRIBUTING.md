@@ -4,7 +4,7 @@
 
 Use the [prompt submission form](https://github.com/michaelsheerin/oci-strategic-install-codex-repo/issues/new?template=prompt-submission.yml). It makes each field available without requiring contributors to create files or open pull requests.
 
-Form submissions are shared immediately as GitHub Issues. Use the issue list to browse and search submissions.
+GitHub uses an Issue only as the form transport. Every submission automatically creates a prompt record in [prompts/](prompts/README.md), with no review or manual publishing step. Browse the prompt library instead of the issue list.
 
 ## Direct pull request option
 
@@ -40,12 +40,12 @@ Provide the details that help another RA understand and reuse the prompt. Every 
 - Proprietary content or source material.
 - Prompts whose use depends on unstated access, background knowledge, or manual cleanup.
 
-## Sharing process
+## Automatic sharing process
 
 1. A contributor submits the form or a pull request.
-2. Form submissions appear in the repository issue list immediately.
-3. Contributors with repository write access can add or improve Markdown records in `prompts/` through pull requests.
-4. The catalog updates after a prompt record merges into `main`.
+2. The automation creates or updates a Markdown record in `prompts/<category>/`.
+3. The Browse prompts page regenerates with a linked category index.
+4. Contributors with repository write access can add or improve Markdown records through pull requests.
 
 ## Updating an existing prompt
 
