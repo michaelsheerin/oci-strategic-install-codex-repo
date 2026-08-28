@@ -2,7 +2,7 @@
 
 ## Preferred submission method
 
-Use the [prompt submission form](https://github.com/michaelsheerin/oci-strategic-install-codex-repo/issues/new?template=prompt-submission.yml). It makes each field available without requiring contributors to create files or open pull requests.
+Use the [Prompt Library submission page](https://michaelsheerin.github.io/oci-strategic-install-codex-repo/?view=submit). It prepares every field in one place, then opens GitHub for the final signed-in submission step.
 
 GitHub uses an Issue only as the form transport. Every submission automatically creates a prompt record in [Browse prompts](https://michaelsheerin.github.io/oci-strategic-install-codex-repo/), with no review or manual publishing step. Browse the prompt library instead of the issue list.
 
