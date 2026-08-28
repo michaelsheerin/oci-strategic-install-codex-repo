@@ -6,7 +6,7 @@ The library turns effective individual workflows into reusable team assets. Each
 
 ## Start here
 
-- [Browse prompts](prompts/README.md)
+- [Browse prompts](https://michaelsheerin.github.io/oci-strategic-install-codex-repo/)
 - [Submit a prompt](https://github.com/michaelsheerin/oci-strategic-install-codex-repo/issues/new?template=prompt-submission.yml)
 - [Read the contribution guide](CONTRIBUTING.md)
 - [Use the prompt record template](prompts/_template.md)
@@ -22,7 +22,7 @@ The library turns effective individual workflows into reusable team assets. Each
 
 Each prompt record is a standalone Markdown file in `prompts/<category>/`. This keeps the content readable in GitHub, gives every prompt a permanent link, and preserves revision history.
 
-The catalog metadata supports optional search and category filters. GitHub-native browsing uses the category folders, prompt record links, and GitHub code search. Submitters do not need to edit an index or understand the folder structure.
+The public Browse prompts page supports full-text search, category filters, demo filters, sorting, and category counts. GitHub-native browsing uses the category folders, prompt record links, and GitHub code search. Submitters do not need to edit an index or understand the folder structure.
 
 | Location | Purpose |
 | --- | --- |
