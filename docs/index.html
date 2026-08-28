@@ -3,128 +3,44 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="A shared library of proven Codex prompts for Strategic Install RAs.">
+    <meta name="description" content="A searchable, shared library of Codex prompts for Strategic Install RAs.">
     <title>Strategic Install Codex Prompt Library</title>
     <link rel="stylesheet" href="assets/styles.css">
   </head>
   <body>
     <header class="site-header">
       <div class="container header-content">
-        <a class="brand" href="./">Strategic Install <span>Codex Prompt Library</span></a>
-        <a class="button button-secondary" href="https://github.com/michaelsheerin/oci-strategic-install-codex-repo/issues/new?template=prompt-submission.yml">Submit a prompt</a>
+        <a class="brand" href="./" aria-label="Strategic Install Codex Prompt Library home">Strategic Install <span>Codex Prompt Library</span></a>
+        <nav class="primary-nav" aria-label="Primary navigation">
+          <a href="?view=library">Browse</a>
+          <a href="?view=readme">Overview</a>
+          <a href="?view=contribute">Contribute</a>
+        </nav>
+        <a class="button button-small" href="?view=submit">Submit a prompt</a>
       </div>
     </header>
 
-    <main>
-      <section class="hero">
-        <div class="container hero-content">
-          <p class="eyebrow">Knowledge that compounds</p>
-          <h1>Reusable Codex prompts for RA work.</h1>
-          <p class="lead">Find proven workflows, understand their inputs and outputs, and share the prompts that help the Strategic Install team work with greater consistency.</p>
-          <div class="hero-actions">
-            <a class="button" href="#library">Browse prompts</a>
-            <a class="text-link" href="https://github.com/michaelsheerin/oci-strategic-install-codex-repo/blob/main/CONTRIBUTING.md">Contribution guidance</a>
-          </div>
-        </div>
-      </section>
-
-      <section class="container purpose-grid" aria-label="How the library works">
-        <article>
-          <p class="number">01</p>
-          <h2>Find</h2>
-          <p>Search by use case, category, or tag. Every record states the context where the prompt fits.</p>
-        </article>
-        <article>
-          <p class="number">02</p>
-          <h2>Run</h2>
-          <p>Confirm the inputs, replace placeholders with sanitized information, and review the result.</p>
-        </article>
-        <article>
-          <p class="number">03</p>
-          <h2>Improve</h2>
-          <p>Submit new prompts or refinements so useful team knowledge stays visible and current.</p>
-        </article>
-      </section>
-
-      <section id="library" class="library-section">
-        <div class="container">
-          <div class="section-heading">
-            <div>
-              <p class="eyebrow">Prompt catalog</p>
-              <h2>Browse the library</h2>
-            </div>
-            <p id="result-count" class="result-count" aria-live="polite"></p>
-          </div>
-
-          <p class="filter-description">Search covers titles, categories, use cases, prompt text, required inputs, expected output, notes, tags, and contact details.</p>
-
-          <div class="filters" aria-label="Prompt filters">
-            <label>
-              <span>Search</span>
-              <input id="search" type="search" placeholder="Search the full prompt library">
-            </label>
-            <label>
-              <span>Category</span>
-              <select id="category">
-                <option value="">All categories</option>
-              </select>
-            </label>
-            <label>
-              <span>Demo</span>
-              <select id="demo">
-                <option value="">Any demo status</option>
-                <option value="recommended">Demo recommended</option>
-                <option value="not-recommended">No demo recommended</option>
-              </select>
-            </label>
-            <label>
-              <span>Sort</span>
-              <select id="sort">
-                <option value="title-asc">Title, A to Z</option>
-                <option value="title-desc">Title, Z to A</option>
-                <option value="newest">Newest first</option>
-                <option value="oldest">Oldest first</option>
-              </select>
-            </label>
-            <button id="clear-filters" class="button button-secondary clear-filters" type="button">Clear filters</button>
-          </div>
-
-          <div id="category-facets" class="category-facets" aria-label="Filter by category"></div>
-
-          <div class="table-wrap">
-            <table class="prompt-table">
-              <thead>
-                <tr>
-                  <th scope="col">Prompt</th>
-                  <th scope="col">Use case</th>
-                  <th scope="col">Category</th>
-                  <th scope="col">Demo</th>
-                  <th scope="col">Updated</th>
-                  <th scope="col"><span class="sr-only">Open</span></th>
-                </tr>
-              </thead>
-              <tbody id="prompt-list" aria-live="polite"></tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <section class="container contribute-callout">
-        <div>
-          <p class="eyebrow">Share a proven workflow</p>
-          <h2>Help the next RA start from a stronger prompt.</h2>
-          <p>The guided form captures the prompt, its purpose, required inputs, expected output, demo recommendation, recording link, and your contact details.</p>
-        </div>
-        <a class="button" href="https://github.com/michaelsheerin/oci-strategic-install-codex-repo/issues/new?template=prompt-submission.yml">Submit a prompt</a>
-      </section>
+    <main id="app" tabindex="-1">
+      <noscript>
+        <section class="container fallback">
+          <h1>JavaScript is required</h1>
+          <p>Use the <a href="https://github.com/michaelsheerin/oci-strategic-install-codex-repo/tree/main/prompts">GitHub prompt records</a> while JavaScript is unavailable.</p>
+        </section>
+      </noscript>
     </main>
 
     <footer class="site-footer">
       <div class="container">
         <p>Strategic Install Codex Prompt Library</p>
-        <a href="https://github.com/michaelsheerin/oci-strategic-install-codex-repo">Repository overview</a>
+        <nav aria-label="Footer navigation">
+          <a href="?view=readme">Overview</a>
+          <a href="?view=contribute">Contribution guide</a>
+          <a href="?view=submit">Submit a prompt</a>
+          <a href="https://github.com/michaelsheerin/oci-strategic-install-codex-repo">Repository</a>
+        </nav>
       </div>
     </footer>
+
     <script src="assets/app.js"></script>
   </body>
 </html>
