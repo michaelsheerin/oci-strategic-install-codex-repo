@@ -1,8 +1,8 @@
 # Browse the Prompt Library
 
-The library uses GitHub-native browsing. Open the [`prompts/`](../prompts) directory and use GitHub code search to find titles, tags, categories, or prompt language.
+Open the live [Browse prompts page](https://michaelsheerin.github.io/oci-strategic-install-codex-repo/) for full-text search, category and demo filters, sorting, and direct prompt links.
 
-The included static catalog is ready for GitHub Pages if hosting becomes available for this repository.
+GitHub-native browsing stays available through the [`prompts/`](../prompts) directory and GitHub code search.
 
 ## Catalog status
 
