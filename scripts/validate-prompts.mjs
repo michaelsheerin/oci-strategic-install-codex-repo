@@ -33,7 +33,7 @@ for (const record of records) {
     errors.push(`${relativePath}: contact_email is not a valid email address.`);
   }
   if (!/^# .+/m.test(record.body)) errors.push(`${relativePath}: Add a level-one prompt title heading.`);
-  if (!/## Prompt text\n[\s\S]*?```text\n[\s\S]+?\n```/.test(record.body)) {
+if (!/## Prompt text\n[\s\S]*?`{3,}text\n[\s\S]+?\n`{3,}/.test(record.body)) {
     errors.push(`${relativePath}: Add complete prompt text in a text code block.`);
   }
 }
