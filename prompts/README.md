@@ -1,17 +1,9 @@
-# Prompt Records
+# Prompt Library
 
-This folder contains reusable Codex prompt records. Each record sits in a category folder and follows the standard metadata format.
+Prompt form submissions appear here automatically. No review or manual publishing step is required.
 
-## Categories
+[Submit a prompt](https://github.com/michaelsheerin/oci-strategic-install-codex-repo/issues/new?template=prompt-submission.yml) · Use GitHub repository search with `path:prompts` to search prompt text, use cases, categories, or contacts.
 
-- `analysis`
-- `customer-preparation`
-- `data-reporting`
-- `project-management`
-- `research`
-- `technical-work`
-- `writing-communication`
+No prompt records have been added yet.
 
-No prompt records have been added yet. Form submissions appear immediately in the [repository issue list](https://github.com/michaelsheerin/oci-strategic-install-codex-repo/issues).
 
-To contribute, use the [submission form](https://github.com/michaelsheerin/oci-strategic-install-codex-repo/issues/new?template=prompt-submission.yml) or follow [CONTRIBUTING.md](../CONTRIBUTING.md).
