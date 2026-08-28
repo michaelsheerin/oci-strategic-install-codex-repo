@@ -1,19 +1,11 @@
 name: Submit a Codex prompt
 description: Share a reusable Codex prompt with the Strategic Install RA community.
-title: "Prompt submission"
+title: "Prompt: "
 body:
   - type: markdown
     attributes:
       value: |
         Thank you for contributing. Do not include customer data, credentials, personal data, or non-public source content. Use placeholders for variable information.
-  - type: input
-    id: title
-    attributes:
-      label: Title
-      description: Give the prompt a short, action-oriented title.
-      placeholder: Draft an executive-ready weekly status update
-    validations:
-      required: false
   - type: dropdown
     id: category
     attributes:
