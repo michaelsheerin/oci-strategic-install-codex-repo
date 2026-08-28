@@ -41,6 +41,10 @@ function yaml(value) {
   return JSON.stringify(String(value ?? ""));
 }
 
+function tableCell(value) {
+  return oneLine(value || "Not provided.").replaceAll("|", "\\|");
+}
+
 function categoryFor(value) {
   return categoryMap.get(oneLine(value).toLowerCase()) || "other";
 }
@@ -82,25 +86,14 @@ export function buildPromptRecord(issue) {
   const relativePath = path.posix.join("prompts", category, `prompt-${issueNumber}.md`);
   const filePath = path.join(repositoryRoot, relativePath);
   const inputSection = requiredInputs.length ? requiredInputs.map((input) => `- ${input}`).join("\n") : "Not provided.";
+  const detailsRows = [
+    ["Category", displayCategory(category)],
+    ["Demo recommended", demoRecommended ? "Yes" : "No"],
+    ["Demo recording", demoRecording],
+    ["Submitted", submittedAt],
+  ].map(([field, value]) => `| ${field} | ${tableCell(value)} |`).join("\n");
 
-  const content = `---
-title: ${yaml(title)}
-description: ${yaml(description)}
-category: ${yaml(category)}
-tags: []
-required_inputs: ${JSON.stringify(requiredInputs)}
-expected_output: ${yaml(expectedOutput)}
-next_steps: ""
-additional_instructions_notes: ${yaml(additionalNotes)}
-demo_recommended: ${demoRecommended}
-demo_recording: ${yaml(demoRecording)}
-contact_name: ${yaml(contactName)}
-contact_email: ${yaml(contactEmail)}
-source_issue: ${yaml(sourceIssue)}
-last_reviewed: ${yaml(submittedAt)}
----
-
-# ${title}
+  const content = `# ${title}
 
 ## Use case and purpose
 
@@ -137,6 +130,29 @@ ${promptText}
 ## Source
 
 ${sourceIssue ? `[Original form submission](${sourceIssue})` : "Source issue not available."}
+
+## Record details
+
+| Field | Value |
+| --- | --- |
+${detailsRows}
+
+<!-- prompt-metadata
+title: ${yaml(title)}
+description: ${yaml(description)}
+category: ${yaml(category)}
+tags: []
+required_inputs: ${JSON.stringify(requiredInputs)}
+expected_output: ${yaml(expectedOutput)}
+next_steps: ""
+additional_instructions_notes: ${yaml(additionalNotes)}
+demo_recommended: ${demoRecommended}
+demo_recording: ${yaml(demoRecording)}
+contact_name: ${yaml(contactName)}
+contact_email: ${yaml(contactEmail)}
+source_issue: ${yaml(sourceIssue)}
+last_reviewed: ${yaml(submittedAt)}
+-->
 `;
 
   return { category, content, filePath, relativePath, title };
