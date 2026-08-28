@@ -1,4 +1,4 @@
-const app = document.querySelector("#app");
+let app;
 const repositoryUrl = "https://github.com/michaelsheerin/oci-strategic-install-codex-repo";
 const rawRepositoryUrl = "https://raw.githubusercontent.com/michaelsheerin/oci-strategic-install-codex-repo/main";
 const categories = ["analysis", "customer-preparation", "data-reporting", "project-management", "research", "technical-work", "writing-communication", "other"];
@@ -119,5 +119,12 @@ function render() {
   else home();
 }
 
-fetch("catalog.json").then((response) => response.ok ? response.json() : Promise.reject(new Error("Catalog unavailable"))).then((records) => { prompts = records; render(); }).catch(() => { app.innerHTML = page("Prompt library", "Catalog unavailable", "The prompt records did not load.", '<section class="container fallback"><a class="button" href="' + repositoryUrl + '/tree/main/prompts">Browse prompt records in GitHub</a></section>'); });
-window.addEventListener("popstate", render);
+function initialize() {
+  app = document.querySelector("#app");
+  if (!app) return;
+  fetch("catalog.json").then((response) => response.ok ? response.json() : Promise.reject(new Error("Catalog unavailable"))).then((records) => { prompts = records; render(); }).catch(() => { app.innerHTML = page("Prompt library", "Catalog unavailable", "The prompt records did not load.", '<section class="container fallback"><a class="button" href="' + repositoryUrl + '/tree/main/prompts">Browse prompt records in GitHub</a></section>'); });
+}
+
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initialize, { once: true });
+else initialize();
+window.addEventListener("popstate", () => { if (app) render(); });
