@@ -7,6 +7,7 @@ const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url))
 const promptsRoot = path.join(repositoryRoot, "prompts");
 const indexPath = path.join(promptsRoot, "README.md");
 const submissionUrl = "https://github.com/michaelsheerin/oci-strategic-install-codex-repo/issues/new?template=prompt-submission.yml";
+const browseUrl = "https://michaelsheerin.github.io/oci-strategic-install-codex-repo/";
 
 function displayCategory(category) {
   return (category || "other").replaceAll("-", " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
@@ -45,7 +46,7 @@ const content = `# Prompt Library
 
 Prompt form submissions appear here automatically. No review or manual publishing step is required.
 
-[Submit a prompt](${submissionUrl}) · Use GitHub repository search with \`path:prompts\` to search prompt text, use cases, categories, or contacts.
+[Browse with search and filters](${browseUrl}) · [Submit a prompt](${submissionUrl}) · Use GitHub repository search with \`path:prompts\` to search prompt text, use cases, categories, or contacts.
 
 ${records.length ? `This library contains ${records.length} prompt record${records.length === 1 ? "" : "s"}.` : "No prompt records have been added yet."}
 
