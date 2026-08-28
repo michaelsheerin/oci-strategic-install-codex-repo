@@ -1,21 +1,3 @@
----
-title: "[Action-oriented prompt title]"
-description: "[One-sentence summary of the use case and intended value.]"
-category: "[analysis | customer-preparation | data-reporting | project-management | research | technical-work | writing-communication]"
-tags: ["[tag-one]", "[tag-two]"]
-required_inputs:
-  - "[Input one]"
-  - "[Input two, or None]"
-expected_output: "[What Codex should produce.]"
-next_steps: "[How the user should review or act on the output.]"
-additional_instructions_notes: "[Optional context, constraints, or usage guidance.]"
-demo_recommended: false
-demo_recording: ""
-contact_name: "[Contributor name]"
-contact_email: "[work email]"
-last_reviewed: "YYYY-MM-DD"
----
-
 # [Action-oriented prompt title]
 
 ## Use case and purpose
@@ -50,3 +32,34 @@ Add any context, constraints, setup guidance, or usage notes that help someone u
 
 - Name: [Contributor name]
 - Email: [work email]
+
+## Source
+
+[Link to an issue, pull request, or supporting documentation.]
+
+## Record details
+
+| Field | Value |
+| --- | --- |
+| Category | [analysis, customer-preparation, data-reporting, project-management, research, technical-work, or writing-communication] |
+| Demo recommended | No |
+| Demo recording | Not available |
+| Last reviewed | YYYY-MM-DD |
+
+<!-- prompt-metadata
+title: "[Action-oriented prompt title]"
+description: "[One-sentence summary of the use case and intended value.]"
+category: "[analysis | customer-preparation | data-reporting | project-management | research | technical-work | writing-communication]"
+tags: ["[tag-one]", "[tag-two]"]
+required_inputs:
+  - "[Input one]"
+  - "[Input two, or None]"
+expected_output: "[What Codex should produce.]"
+next_steps: "[How the user should review or act on the output.]"
+additional_instructions_notes: "[Optional context, constraints, or usage guidance.]"
+demo_recommended: false
+demo_recording: ""
+contact_name: "[Contributor name]"
+contact_email: "[work email]"
+last_reviewed: "YYYY-MM-DD"
+-->
