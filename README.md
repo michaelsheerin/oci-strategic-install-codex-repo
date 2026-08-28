@@ -2,7 +2,7 @@
 
 A shared library of proven Codex prompts for RAs supporting Strategic Install work.
 
-The library turns effective individual workflows into reusable team assets. Each shared prompt explains the business purpose, required inputs, expected result, follow-on actions, and the right person to contact. The goal is faster, more consistent work without losing the context required for sound judgment.
+The library turns effective individual workflows into reusable team assets. Each form submission creates a prompt record in the library automatically. The goal is faster, more consistent work without losing the context required for sound judgment.
 
 ## Start here
 
@@ -34,9 +34,9 @@ The catalog metadata supports optional search and category filters. GitHub-nativ
 
 ## Sharing standard
 
-Share prompts that are reusable, specific, and safe for colleagues to adopt. Before you submit, remove customer data, credentials, internal identifiers, personal information, and non-public content. Describe required inputs without pasting sensitive examples.
+Share prompts that are reusable, specific, and safe for colleagues to adopt. Before you submit, remove customer data, credentials, internal identifiers, personal information, and non-public content. Describe required inputs without pasting sensitive examples. No review or manual publishing step occurs after submission.
 
-Every prompt record includes:
+Prompt records retain the details supplied in the form:
 
 1. Title
 2. Detailed use case and purpose
