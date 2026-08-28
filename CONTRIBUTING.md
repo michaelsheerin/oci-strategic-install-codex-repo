@@ -2,17 +2,17 @@
 
 ## Preferred submission method
 
-Use the [prompt submission form](../../issues/new?template=prompt-submission.yml). It collects every required field without requiring contributors to create files or open pull requests.
+Use the [prompt submission form](https://github.com/michaelsheerin/oci-strategic-install-codex-repo/issues/new?template=prompt-submission.yml). It makes each field available without requiring contributors to create files or open pull requests.
 
-A maintainer will review the submission, confirm it is safe to share, and convert approved content into a versioned prompt record in `prompts/`.
+Form submissions are shared immediately as GitHub Issues. Use the issue list to browse and search submissions.
 
 ## Direct pull request option
 
-Experienced contributors can copy [prompts/_template.md](prompts/_template.md), save it as `prompts/<category>/<short-descriptive-name>.md`, and open a pull request. Do not edit the catalog manually. The publishing workflow builds it from prompt metadata.
+Experienced contributors can copy [prompts/_template.md](prompts/_template.md), save it as `prompts/<category>/<short-descriptive-name>.md`, and open a pull request. Do not edit the catalog manually. The catalog build script reads prompt metadata.
 
 ## Submission requirements
 
-Provide clear, complete content for each field below.
+Provide the details that help another RA understand and reuse the prompt. Every field is optional.
 
 | Field | What to include |
 | --- | --- |
@@ -28,24 +28,24 @@ Provide clear, complete content for each field below.
 ## Content standards
 
 - Use placeholders such as `[customer name]`, `[file path]`, and `[reporting period]`.
-- State assumptions, constraints, and required review steps.
+- State assumptions, constraints, and required validation steps.
 - Write prompts that another RA can run without a separate briefing.
-- Link to approved internal documentation when context is necessary.
+- Link to relevant internal documentation when context is necessary.
 - Test the prompt before submission.
 
 ## Do not submit
 
 - Customer data, credentials, tokens, passwords, or private URLs.
 - Personal data beyond the contributor contact information requested by the form.
-- Unapproved proprietary content or source material.
+- Proprietary content or source material.
 - Prompts whose use depends on unstated access, background knowledge, or manual cleanup.
 
-## Review process
+## Sharing process
 
 1. A contributor submits the form or a pull request.
-2. A maintainer checks completeness, safety, clarity, and repeatability.
-3. Approved prompts receive a category, tags, and a published record.
-4. The catalog updates automatically after the record merges into `main`.
+2. Form submissions appear in the repository issue list immediately.
+3. Contributors with repository write access can add or improve Markdown records in `prompts/` through pull requests.
+4. The catalog updates after a prompt record merges into `main`.
 
 ## Updating an existing prompt
 
