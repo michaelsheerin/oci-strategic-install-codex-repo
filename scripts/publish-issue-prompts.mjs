@@ -106,12 +106,6 @@ last_reviewed: ${yaml(submittedAt)}
 
 ${useCase || "Not provided."}
 
-## Prompt text
-
-\`\`\`\`text
-${promptText}
-\`\`\`\`
-
 ## Required inputs
 
 ${inputSection}
@@ -128,6 +122,12 @@ ${additionalNotes || "Not provided."}
 
 - Recommended: ${demoRecommended ? "Yes" : "No"}
 - Recording: ${demoRecording || "Not provided."}
+
+## Prompt text
+
+\`\`\`\`text
+${promptText}
+\`\`\`\`
 
 ## Contact
 
