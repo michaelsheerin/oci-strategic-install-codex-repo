@@ -1,6 +1,6 @@
 name: Submit a Codex prompt
 description: Share a reusable Codex prompt with the Strategic Install RA community.
-title: "Prompt: "
+title: "Prompt submission"
 body:
   - type: markdown
     attributes:
@@ -13,7 +13,7 @@ body:
       description: Give the prompt a short, action-oriented title.
       placeholder: Draft an executive-ready weekly status update
     validations:
-      required: true
+      required: false
   - type: dropdown
     id: category
     attributes:
@@ -29,15 +29,15 @@ body:
         - Writing and communication
         - Other
     validations:
-      required: true
+      required: false
   - type: textarea
     id: use-case
     attributes:
       label: Use case and purpose
-      description: Explain when to use this prompt, what problem it solves, and any limits or review requirements.
+      description: Explain when to use this prompt, what problem it solves, and any limits.
       placeholder: This prompt is used when...
     validations:
-      required: true
+      required: false
   - type: textarea
     id: prompt-text
     attributes:
@@ -45,7 +45,7 @@ body:
       description: Paste the complete reusable prompt. Replace sensitive or variable information with placeholders.
       render: text
     validations:
-      required: true
+      required: false
   - type: textarea
     id: required-inputs
     attributes:
@@ -56,14 +56,22 @@ body:
         - Reporting period
         - Intended audience
     validations:
-      required: true
+      required: false
   - type: textarea
     id: expected-output-next-steps
     attributes:
       label: Expected output and next steps
       description: State what Codex should produce, how to validate it, and what action follows.
     validations:
-      required: true
+      required: false
+  - type: textarea
+    id: additional-instructions-notes
+    attributes:
+      label: Additional instructions and notes
+      description: Add context, constraints, setup guidance, usage notes, or any other information users should consider.
+      placeholder: Add any instructions or notes that will help someone use this prompt.
+    validations:
+      required: false
   - type: dropdown
     id: demo-recommended
     attributes:
@@ -73,7 +81,7 @@ body:
         - "No"
         - "Yes"
     validations:
-      required: true
+      required: false
   - type: input
     id: demo-recording
     attributes:
@@ -88,7 +96,7 @@ body:
       label: Your name
       description: Include the person who can answer follow-up questions.
     validations:
-      required: true
+      required: false
   - type: input
     id: contributor-email
     attributes:
@@ -96,13 +104,13 @@ body:
       description: Include a work email for questions or improvement requests.
       placeholder: name@company.com
     validations:
-      required: true
+      required: false
   - type: checkboxes
     id: confirmation
     attributes:
       label: Submission checks
       options:
         - label: I tested this prompt and the required inputs are accurate.
-          required: true
+          required: false
         - label: I removed customer data, credentials, personal data, and non-public source content.
-          required: true
+          required: false
