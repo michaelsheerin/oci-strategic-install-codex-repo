@@ -8,11 +8,7 @@ Once this prompt is executed, it is the sales team responsibility to manually re
 
 ## Required inputs
 
-| Input | Requirement |
-| --- | --- |
-| SPA Rate Card file | Download the SPA rate card before starting. Provide the local file path. The source supports CSV or Excel, with variable length and column order. |
-| Validated CPQ link | Provide a link to a CPQ quote whose rate card has been manually validated with confidence. This quote supplies the proposed gold-standard baseline. |
-| Output folder | Optional. Specify a folder only when it differs from the SPA source folder. |
+
 
 ## Expected output and next steps
 
