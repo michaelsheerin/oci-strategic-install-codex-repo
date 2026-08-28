@@ -8,6 +8,7 @@ required_inputs:
   - "[Input two, or None]"
 expected_output: "[What Codex should produce.]"
 next_steps: "[How the user should review or act on the output.]"
+additional_instructions_notes: "[Optional context, constraints, or usage guidance.]"
 demo_recommended: false
 demo_recording: ""
 contact_name: "[Contributor name]"
@@ -35,6 +36,10 @@ Describe when an RA should use this prompt, the problem it solves, the intended 
 ## Expected output and next steps
 
 State what Codex should return. Explain how to validate the result and what action should follow.
+
+## Additional instructions and notes
+
+Add any context, constraints, setup guidance, or usage notes that help someone use this prompt.
 
 ## Demo
 
