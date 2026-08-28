@@ -1,13 +1,6 @@
 name: Publish prompt library
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "prompts/**"
-      - "docs/**"
-      - "scripts/build-catalog.mjs"
-      - ".github/workflows/publish-prompt-library.yml"
   workflow_dispatch:
 
 permissions:
