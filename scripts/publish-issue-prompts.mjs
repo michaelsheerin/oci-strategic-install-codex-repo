@@ -66,9 +66,15 @@ function issueIsPromptSubmission(issue) {
   return String(issue.body || "").includes("### Use case and purpose");
 }
 
+function existingPromptPath(value) {
+  const relativePath = oneLine(value).replaceAll("\\", "/");
+  return /^prompts\/[a-z0-9-]+\/[a-z0-9-]+\.md$/.test(relativePath) ? relativePath : "";
+}
+
 export function buildPromptRecord(issue) {
   const body = String(issue.body || "");
   const title = promptTitle(issue);
+  const existingPath = existingPromptPath(section(body, "Existing prompt record"));
   const useCase = section(body, "Use case and purpose");
   const category = categoryFor(section(body, "Category"));
   const promptText = section(body, "Prompt text") || "No prompt text provided.";
@@ -83,7 +89,7 @@ export function buildPromptRecord(issue) {
   const sourceIssue = sourceIssueUrl(issue);
   const description = oneLine(useCase).slice(0, 220) || "No use case provided.";
   const issueNumber = Number(issue.number);
-  const relativePath = path.posix.join("prompts", category, `prompt-${issueNumber}.md`);
+  const relativePath = existingPath || path.posix.join("prompts", category, `prompt-${issueNumber}.md`);
   const filePath = path.join(repositoryRoot, relativePath);
   const inputSection = requiredInputs.length ? requiredInputs.map((input) => `- ${input}`).join("\n") : "Not provided.";
   const detailsRows = [
