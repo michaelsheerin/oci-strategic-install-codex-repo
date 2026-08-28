@@ -22,12 +22,6 @@ last_reviewed: "YYYY-MM-DD"
 
 Describe when an RA should use this prompt, the problem it solves, the intended audience, and any constraints or review requirements.
 
-## Prompt text
-
-```text
-[Paste the full reusable prompt here. Use placeholders such as [customer name], [time period], and [file path].]
-```
-
 ## Required inputs
 
 - [Input one]
@@ -45,6 +39,12 @@ Add any context, constraints, setup guidance, or usage notes that help someone u
 
 - Recommended: No
 - Recording: Not available
+
+## Prompt text
+
+```text
+[Paste the full reusable prompt here. Use placeholders such as [customer name], [time period], and [file path].]
+```
 
 ## Contact
 
