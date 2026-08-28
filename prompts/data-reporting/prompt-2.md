@@ -1,20 +1,3 @@
----
-title: "CPQ Rate Card Reconciliation based on Gold-Standard-Rate-Card"
-description: "This prompt reconciles a newly generated CPQ rate card against the approved local Gold Standard Rate Card created in Prompt 1. It provides a repeatable validation process for future quotes and identifies whether the curr"
-category: "data-reporting"
-tags: []
-required_inputs: ["<html xmlns:o=\"urn:schemas-microsoft-com:office:office\"","xmlns:dt=\"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882\"","xmlns=\"http://www.w3.org/TR/REC-html40\">","<head>","<meta name=ProgId content=OneNote.File>","<meta name=Generator content=\"Microsoft OneNote 15\">","</head>","<body lang=en-US style='font-family:Calibri;font-size:11.0pt'>","<!--StartFragment-->","<div style='direction:ltr'>","Input | Requirement","-- | --","Output   folder | Optional.   Specify a folder only when it differs from the Gold Standard Rate Card file   location.","Gold   Standard Rate Card file | Provide the local Gold-Standard-Rate-Card.xlsx file created through Prompt 1, or an   approved existing gold-standard file.","Current   CPQ link | Provide   the CPQ quote link for the rate card being evaluated. Codex extracts the   dynamic CPQ identifier from the link for file and tab naming.","</div>","<!--EndFragment-->","</body>","</html>"]
-expected_output: "<html xmlns:o=\"urn:schemas-microsoft-com:office:office\"\nxmlns:dt=\"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882\"\nxmlns=\"http://www.w3.org/TR/REC-html40\">\n\n<head>\n\n<meta name=ProgId content=OneNote.File>\n<meta name=Generator content=\"Microsoft OneNote 15\">\n</head>\n\n<body lang=en-US style='font-family:Calibri;font-size:11.0pt'>\n<!--StartFragment-->\n\n<div style='direction:ltr'>\n\n\nExcel Tabs | Content\n-- | --\nCPQ-<CPQ_NUMBER>   reconciliation | Editable    reconciliation view containing original data from extracted CPQ rate card,    and:         Target Gold-Standard-Selling-Price that you will         reconcile to via manual edits in CPQ     The Difference in         Gold-Standard and current CPQ Selling Price (for reference only)     The target         Adjusted-Discount that you will apply manually in CPQ to reach the         target Gold-Standard-Selling-Price\nCPQ-<CPQ_NUMBER>_Rate-Card | Read-only   local extraction of the current CPQ rate card. Includes all extracted SKU   records, including zero-selling-price rows.\ngold-standard-rate-card | Local   copy of the approved gold-standard data. Zero Unit Selling Price records are   removed. Lookup Key combines SKU and Unit Qty/Range to support accurate   tiered-price matching.\n\n\n\n</div>\n\n<!--EndFragment-->\n</body>\n\n</html>"
-next_steps: ""
-additional_instructions_notes: "Complete prompt 'Generate Gold Standard Rate Card' prior to processing this."
-demo_recommended: false
-demo_recording: "_No response_"
-contact_name: "Michael Sheerin"
-contact_email: "michael.sheerin@oracle.com"
-source_issue: "https://github.com/michaelsheerin/oci-strategic-install-codex-repo/issues/2"
-last_reviewed: "2026-08-28"
----
-
 # CPQ Rate Card Reconciliation based on Gold-Standard-Rate-Card
 
 ## Use case and purpose
@@ -22,6 +5,70 @@ last_reviewed: "2026-08-28"
 This prompt reconciles a newly generated CPQ rate card against the approved local Gold Standard Rate Card created in Prompt 1. It provides a repeatable validation process for future quotes and identifies whether the current CPQ Unit Selling Price matches the established customer net unit price. The prompt extracts the current CPQ rate card and compares each Selling Price to the gold-standard price generated in Prompt 1, using SKU and Unit Qty/Range together.
 
 Once this prompt is executed, it is the sales team responsibility to manually reconcile the current CPQ rate card with the generated Adjusted-Discount and validate the target Selling Price matches the Gold-Standard.
+
+## Required inputs
+
+- <html xmlns:o="urn:schemas-microsoft-com:office:office"
+- xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"
+- xmlns="http://www.w3.org/TR/REC-html40">
+- <head>
+- <meta name=ProgId content=OneNote.File>
+- <meta name=Generator content="Microsoft OneNote 15">
+- </head>
+- <body lang=en-US style='font-family:Calibri;font-size:11.0pt'>
+- <!--StartFragment-->
+- <div style='direction:ltr'>
+- Input | Requirement
+- -- | --
+- Output   folder | Optional.   Specify a folder only when it differs from the Gold Standard Rate Card file   location.
+- Gold   Standard Rate Card file | Provide the local Gold-Standard-Rate-Card.xlsx file created through Prompt 1, or an   approved existing gold-standard file.
+- Current   CPQ link | Provide   the CPQ quote link for the rate card being evaluated. Codex extracts the   dynamic CPQ identifier from the link for file and tab naming.
+- </div>
+- <!--EndFragment-->
+- </body>
+- </html>
+
+## Expected output and next steps
+
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+
+<meta name=ProgId content=OneNote.File>
+<meta name=Generator content="Microsoft OneNote 15">
+</head>
+
+<body lang=en-US style='font-family:Calibri;font-size:11.0pt'>
+<!--StartFragment-->
+
+<div style='direction:ltr'>
+
+
+Excel Tabs | Content
+-- | --
+CPQ-<CPQ_NUMBER>   reconciliation | Editable    reconciliation view containing original data from extracted CPQ rate card,    and:         Target Gold-Standard-Selling-Price that you will         reconcile to via manual edits in CPQ     The Difference in         Gold-Standard and current CPQ Selling Price (for reference only)     The target         Adjusted-Discount that you will apply manually in CPQ to reach the         target Gold-Standard-Selling-Price
+CPQ-<CPQ_NUMBER>_Rate-Card | Read-only   local extraction of the current CPQ rate card. Includes all extracted SKU   records, including zero-selling-price rows.
+gold-standard-rate-card | Local   copy of the approved gold-standard data. Zero Unit Selling Price records are   removed. Lookup Key combines SKU and Unit Qty/Range to support accurate   tiered-price matching.
+
+
+
+</div>
+
+<!--EndFragment-->
+</body>
+
+</html>
+
+## Additional instructions and notes
+
+Complete prompt 'Generate Gold Standard Rate Card' prior to processing this.
+
+## Demo
+
+- Recommended: No
+- Recording: _No response_
 
 ## Prompt text
 
@@ -305,70 +352,6 @@ Return the completed workbook path and report:
 ```
 ````
 
-## Required inputs
-
-- <html xmlns:o="urn:schemas-microsoft-com:office:office"
-- xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"
-- xmlns="http://www.w3.org/TR/REC-html40">
-- <head>
-- <meta name=ProgId content=OneNote.File>
-- <meta name=Generator content="Microsoft OneNote 15">
-- </head>
-- <body lang=en-US style='font-family:Calibri;font-size:11.0pt'>
-- <!--StartFragment-->
-- <div style='direction:ltr'>
-- Input | Requirement
-- -- | --
-- Output   folder | Optional.   Specify a folder only when it differs from the Gold Standard Rate Card file   location.
-- Gold   Standard Rate Card file | Provide the local Gold-Standard-Rate-Card.xlsx file created through Prompt 1, or an   approved existing gold-standard file.
-- Current   CPQ link | Provide   the CPQ quote link for the rate card being evaluated. Codex extracts the   dynamic CPQ identifier from the link for file and tab naming.
-- </div>
-- <!--EndFragment-->
-- </body>
-- </html>
-
-## Expected output and next steps
-
-<html xmlns:o="urn:schemas-microsoft-com:office:office"
-xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"
-xmlns="http://www.w3.org/TR/REC-html40">
-
-<head>
-
-<meta name=ProgId content=OneNote.File>
-<meta name=Generator content="Microsoft OneNote 15">
-</head>
-
-<body lang=en-US style='font-family:Calibri;font-size:11.0pt'>
-<!--StartFragment-->
-
-<div style='direction:ltr'>
-
-
-Excel Tabs | Content
--- | --
-CPQ-<CPQ_NUMBER>   reconciliation | Editable    reconciliation view containing original data from extracted CPQ rate card,    and:         Target Gold-Standard-Selling-Price that you will         reconcile to via manual edits in CPQ     The Difference in         Gold-Standard and current CPQ Selling Price (for reference only)     The target         Adjusted-Discount that you will apply manually in CPQ to reach the         target Gold-Standard-Selling-Price
-CPQ-<CPQ_NUMBER>_Rate-Card | Read-only   local extraction of the current CPQ rate card. Includes all extracted SKU   records, including zero-selling-price rows.
-gold-standard-rate-card | Local   copy of the approved gold-standard data. Zero Unit Selling Price records are   removed. Lookup Key combines SKU and Unit Qty/Range to support accurate   tiered-price matching.
-
-
-
-</div>
-
-<!--EndFragment-->
-</body>
-
-</html>
-
-## Additional instructions and notes
-
-Complete prompt 'Generate Gold Standard Rate Card' prior to processing this.
-
-## Demo
-
-- Recommended: No
-- Recording: _No response_
-
 ## Contact
 
 - Name: Michael Sheerin
@@ -377,3 +360,29 @@ Complete prompt 'Generate Gold Standard Rate Card' prior to processing this.
 ## Source
 
 [Original form submission](https://github.com/michaelsheerin/oci-strategic-install-codex-repo/issues/2)
+
+## Record details
+
+| Field | Value |
+| --- | --- |
+| Category | Data Reporting |
+| Demo recommended | No |
+| Demo recording | _No response_ |
+| Submitted | 2026-08-28 |
+
+<!-- prompt-metadata
+title: "CPQ Rate Card Reconciliation based on Gold-Standard-Rate-Card"
+description: "This prompt reconciles a newly generated CPQ rate card against the approved local Gold Standard Rate Card created in Prompt 1. It provides a repeatable validation process for future quotes and identifies whether the curr"
+category: "data-reporting"
+tags: []
+required_inputs: ["<html xmlns:o=\"urn:schemas-microsoft-com:office:office\"","xmlns:dt=\"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882\"","xmlns=\"http://www.w3.org/TR/REC-html40\">","<head>","<meta name=ProgId content=OneNote.File>","<meta name=Generator content=\"Microsoft OneNote 15\">","</head>","<body lang=en-US style='font-family:Calibri;font-size:11.0pt'>","<!--StartFragment-->","<div style='direction:ltr'>","Input | Requirement","-- | --","Output   folder | Optional.   Specify a folder only when it differs from the Gold Standard Rate Card file   location.","Gold   Standard Rate Card file | Provide the local Gold-Standard-Rate-Card.xlsx file created through Prompt 1, or an   approved existing gold-standard file.","Current   CPQ link | Provide   the CPQ quote link for the rate card being evaluated. Codex extracts the   dynamic CPQ identifier from the link for file and tab naming.","</div>","<!--EndFragment-->","</body>","</html>"]
+expected_output: "<html xmlns:o=\"urn:schemas-microsoft-com:office:office\"\nxmlns:dt=\"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882\"\nxmlns=\"http://www.w3.org/TR/REC-html40\">\n\n<head>\n\n<meta name=ProgId content=OneNote.File>\n<meta name=Generator content=\"Microsoft OneNote 15\">\n</head>\n\n<body lang=en-US style='font-family:Calibri;font-size:11.0pt'>\n<!--StartFragment-->\n\n<div style='direction:ltr'>\n\n\nExcel Tabs | Content\n-- | --\nCPQ-<CPQ_NUMBER>   reconciliation | Editable    reconciliation view containing original data from extracted CPQ rate card,    and:         Target Gold-Standard-Selling-Price that you will         reconcile to via manual edits in CPQ     The Difference in         Gold-Standard and current CPQ Selling Price (for reference only)     The target         Adjusted-Discount that you will apply manually in CPQ to reach the         target Gold-Standard-Selling-Price\nCPQ-<CPQ_NUMBER>_Rate-Card | Read-only   local extraction of the current CPQ rate card. Includes all extracted SKU   records, including zero-selling-price rows.\ngold-standard-rate-card | Local   copy of the approved gold-standard data. Zero Unit Selling Price records are   removed. Lookup Key combines SKU and Unit Qty/Range to support accurate   tiered-price matching.\n\n\n\n</div>\n\n<!--EndFragment-->\n</body>\n\n</html>"
+next_steps: ""
+additional_instructions_notes: "Complete prompt 'Generate Gold Standard Rate Card' prior to processing this."
+demo_recommended: false
+demo_recording: "_No response_"
+contact_name: "Michael Sheerin"
+contact_email: "michael.sheerin@oracle.com"
+source_issue: "https://github.com/michaelsheerin/oci-strategic-install-codex-repo/issues/2"
+last_reviewed: "2026-08-28"
+-->

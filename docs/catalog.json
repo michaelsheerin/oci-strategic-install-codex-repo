@@ -27,11 +27,15 @@
     ],
     "expectedOutput": "<html xmlns:o=\"urn:schemas-microsoft-com:office:office\"\nxmlns:dt=\"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882\"\nxmlns=\"http://www.w3.org/TR/REC-html40\">\n\n<head>\n\n<meta name=ProgId content=OneNote.File>\n<meta name=Generator content=\"Microsoft OneNote 15\">\n</head>\n\n<body lang=en-US style='font-family:Calibri;font-size:11.0pt'>\n<!--StartFragment-->\n\n<div style='direction:ltr'>\n\n\nExcel Tabs | Content\n-- | --\nCPQ-<CPQ_NUMBER>   reconciliation | Editable    reconciliation view containing original data from extracted CPQ rate card,    and:         Target Gold-Standard-Selling-Price that you will         reconcile to via manual edits in CPQ     The Difference in         Gold-Standard and current CPQ Selling Price (for reference only)     The target         Adjusted-Discount that you will apply manually in CPQ to reach the         target Gold-Standard-Selling-Price\nCPQ-<CPQ_NUMBER>_Rate-Card | Read-only   local extraction of the current CPQ rate card. Includes all extracted SKU   records, including zero-selling-price rows.\ngold-standard-rate-card | Local   copy of the approved gold-standard data. Zero Unit Selling Price records are   removed. Lookup Key combines SKU and Unit Qty/Range to support accurate   tiered-price matching.\n\n\n\n</div>\n\n<!--EndFragment-->\n</body>\n\n</html>",
     "nextSteps": "",
+    "additionalInstructionsNotes": "Complete prompt 'Generate Gold Standard Rate Card' prior to processing this.",
     "demoRecommended": false,
     "demoRecording": "_No response_",
     "contactName": "Michael Sheerin",
     "contactEmail": "michael.sheerin@oracle.com",
+    "sourceIssue": "https://github.com/michaelsheerin/oci-strategic-install-codex-repo/issues/2",
     "lastReviewed": "2026-08-28",
+    "useCase": "This prompt reconciles a newly generated CPQ rate card against the approved local Gold Standard Rate Card created in Prompt 1. It provides a repeatable validation process for future quotes and identifies whether the current CPQ Unit Selling Price matches the established customer net unit price. The prompt extracts the current CPQ rate card and compares each Selling Price to the gold-standard price generated in Prompt 1, using SKU and Unit Qty/Range together.",
+    "promptText": "",
     "path": "prompts/data-reporting/prompt-2.md"
   },
   {
@@ -62,11 +66,15 @@
     ],
     "expectedOutput": "Excel file called Gold-Standard-Rate-Card.xlsx with following tabs:\n\n<html xmlns:o=\"urn:schemas-microsoft-com:office:office\"\nxmlns:dt=\"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882\"\nxmlns=\"http://www.w3.org/TR/REC-html40\">\n\n<head>\n\n<meta name=ProgId content=OneNote.File>\n<meta name=Generator content=\"Microsoft OneNote 15\">\n</head>\n\n<body lang=en-US style='font-family:Calibri;font-size:11.0pt'>\n<!--StartFragment-->\n\n<div style='direction:ltr'>\n\n\nExcel Tabs | Content\n-- | --\nCPQ-Gold-Standard | Read-only   source extraction from the trusted CPQ quote. Includes Product Category, SKU,   description, metric, discount fields, quantity, list price, selling price,   overage price, and LOA.\nSPA-Rate-Card_YYYY-MM-DD | SPA   source data after zero net-price rows are removed and remaining rows are   sorted by Net Unit Price in ascending order. The date reflects the source   file Date Modified value.\nCPQ-Gold_to_SPA   Validation | Editable   comparison view. Includes SKU, Product Name, Product Category,   CPQ-Selling-Price, Rate-Card-Net-Price, and CPQ-SPA-Difference. This will be   manually evaluated by sales teams to reconcile differences and edit   CPQ-Gold-Standard tab.\n\n\n\n</div>\n\n<!--EndFragment-->\n</body>\n\n</html>",
     "nextSteps": "",
+    "additionalInstructionsNotes": "<html xmlns:o=\"urn:schemas-microsoft-com:office:office\"\nxmlns:dt=\"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882\"\nxmlns=\"http://www.w3.org/TR/REC-html40\">\n\n<head>\n\n<meta name=ProgId content=OneNote.File>\n<meta name=Generator content=\"Microsoft OneNote 15\">\n</head>\n\n<body lang=en-US style='font-family:Calibri;font-size:11.0pt'>\n<!--StartFragment-->\n\n<div style='direction:ltr'>\n\n\nExcel Tabs | Content\n-- | --\nCPQ-Gold-Standard | Read-only   source extraction from the trusted CPQ quote. Includes Product Category, SKU,   description, metric, discount fields, quantity, list price, selling price,   overage price, and LOA.\nSPA-Rate-Card_YYYY-MM-DD | SPA   source data after zero net-price rows are removed and remaining rows are   sorted by Net Unit Price in ascending order. The date reflects the source   file Date Modified value.\nCPQ-Gold_to_SPA   Validation | Editable   comparison view. Includes SKU, Product Name, Product Category,   CPQ-Selling-Price, Rate-Card-Net-Price, and CPQ-SPA-Difference. This will be   manually evaluated by sales teams to reconcile differences and edit   CPQ-Gold-Standard tab.\n\n\n\n</div>\n\n<!--EndFragment-->\n</body>\n\n</html>",
     "demoRecommended": false,
     "demoRecording": "_No response_",
     "contactName": "Michael Sheerin",
     "contactEmail": "michael.sheerin@oracle.com",
+    "sourceIssue": "https://github.com/michaelsheerin/oci-strategic-install-codex-repo/issues/1",
     "lastReviewed": "2026-08-28",
+    "useCase": "This prompt establishes a local Gold Standard Rate Card from a previously validated CPQ quote. This approved CPQ baseline creates a consistent reference point for reconciliation analysis of future CPQ quotes.",
+    "promptText": "",
     "path": "prompts/data-reporting/prompt-1.md"
   }
 ]
