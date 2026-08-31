@@ -9,6 +9,7 @@ on:
       - "scripts/build-catalog.mjs"
       - "scripts/build-prompt-index.mjs"
       - "scripts/prompt-metadata.mjs"
+      - "scripts/version-static-assets.mjs"
       - ".github/workflows/publish-prompt-library.yml"
   workflow_dispatch:
 
@@ -42,6 +43,8 @@ jobs:
         run: node scripts/build-prompt-index.mjs
       - name: Build catalog
         run: node scripts/build-catalog.mjs
+      - name: Version static assets
+        run: node scripts/version-static-assets.mjs
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
