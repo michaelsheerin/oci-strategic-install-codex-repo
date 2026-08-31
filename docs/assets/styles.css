@@ -138,6 +138,9 @@ input:focus, select:focus { outline: 3px solid rgba(189, 44, 44, .18); border-co
 .record-content > section:last-child { border-bottom: 0; }
 .record-content h2, .document-content h2 { font-size: 1.35rem; }
 .record-content p, .record-content li, .document-content p, .document-content li { color: var(--muted); }
+.prompt-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+.prompt-heading h2 { margin: 0; }
+.copy-prompt-status { min-height: 1.25rem; margin: 0 0 10px; font-size: .88rem; }
 .record-content pre, .document-content pre { overflow-x: auto; margin: 0; padding: 21px; border-radius: 6px; background: #202a33; color: #edf2f5; font-size: .9rem; line-height: 1.6; white-space: pre-wrap; }
 .rich-table { overflow-x: auto; margin: 18px 0; border: 1px solid var(--line); border-radius: 6px; background: var(--white); }
 .rich-table table { width: 100%; min-width: 640px; border-collapse: collapse; text-align: left; }
@@ -184,6 +187,7 @@ textarea:focus { outline: 3px solid rgba(189, 44, 44, .18); border-color: var(--
   .page-hero-inner { padding: 43px 0 46px; }
   .record-layout, .document-section { padding-top: 38px; padding-bottom: 54px; }
   .record-actions, .form-actions { align-items: stretch; flex-direction: column; }
+  .prompt-heading { align-items: flex-start; flex-direction: column; }
   .definition-list div { grid-template-columns: 1fr; gap: 4px; }
   .detail-table th { width: 45%; }
 }

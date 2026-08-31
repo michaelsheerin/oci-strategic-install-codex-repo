@@ -60,6 +60,24 @@ function publisherHref(view, values = {}) {
   return window.location.origin === publishingServiceUrl ? href(view, values) : publishingServiceUrl + href(view, values);
 }
 
+async function copyText(value) {
+  if (navigator.clipboard?.writeText && window.isSecureContext) {
+    await navigator.clipboard.writeText(value);
+    return;
+  }
+
+  const fallback = document.createElement("textarea");
+  fallback.value = value;
+  fallback.setAttribute("readonly", "");
+  fallback.style.position = "fixed";
+  fallback.style.opacity = "0";
+  document.body.append(fallback);
+  fallback.select();
+  const copied = document.execCommand("copy");
+  fallback.remove();
+  if (!copied) throw new Error("Clipboard access was unavailable.");
+}
+
 function fullText(record) {
   return [record.title, record.description, record.category, ...(record.tags || []), record.useCase, record.promptText, ...(record.requiredInputs || []), record.expectedOutput, record.nextSteps, record.additionalInstructionsNotes, record.contactName, record.contactEmail].join(" ").toLowerCase();
 }
@@ -105,8 +123,24 @@ function prompt(record) {
   const markdownRecordUrl = repositoryUrl + "/blob/main/" + record.path.split("/").map(encodeURIComponent).join("/");
   const section = (heading, content) => "<section><h2>" + heading + "</h2>" + content + "</section>";
   const paragraph = (value) => formattedContent(value);
+  const promptText = record.promptText || "";
+  const promptSection = '<section><div class="prompt-heading"><h2>Prompt text</h2><button id="copy-prompt" class="button button-secondary button-small" type="button"' + (promptText ? "" : " disabled") + '>Copy prompt</button></div><p id="copy-prompt-status" class="copy-prompt-status" aria-live="polite"></p><pre><code>' + escapeHtml(promptText || "No prompt text provided.") + "</code></pre></section>";
   const details = '<div class="detail-table"><table><tbody><tr><th>Category</th><td>' + name(record.category) + '</td></tr><tr><th>Last updated</th><td>' + escapeHtml(record.lastReviewed || "Not provided") + '</td></tr><tr><th>Markdown record</th><td><a href="' + escapeHtml(markdownRecordUrl) + '" target="_blank" rel="noreferrer"><code>' + escapeHtml(record.path) + "</code></a></td></tr></tbody></table></div>";
-  app.innerHTML = page("Prompt record", escapeHtml(record.title), escapeHtml(record.description || "Reusable prompt record."), '<section class="container record-layout"><div class="record-actions"><a class="button button-secondary" href="' + href("library") + '">Back to library</a><a class="button" href="' + publisherHref("edit", { prompt: record.path }) + '">Edit this prompt</a></div><article class="record-content">' + section("Use case and purpose", paragraph(record.useCase || record.description)) + section("Required inputs", inputs) + section("Expected output and next steps", paragraph([record.expectedOutput, record.nextSteps].filter(Boolean).join("\n\n"))) + section("Additional instructions and notes", paragraph(record.additionalInstructionsNotes)) + section("Demo", '<dl class="definition-list"><div><dt>Recommended</dt><dd>' + (record.demoRecommended ? "Yes" : "No") + "</dd></div><div><dt>Recording</dt><dd>" + recording + "</dd></div></dl>") + section("Prompt text", "<pre><code>" + escapeHtml(record.promptText || "No prompt text provided.") + "</code></pre>") + section("Contact", '<dl class="definition-list"><div><dt>Name</dt><dd>' + escapeHtml(record.contactName || "Not provided.") + "</dd></div><div><dt>Email</dt><dd>" + escapeHtml(record.contactEmail || "Not provided.") + "</dd></div></dl>") + section("Source", "<p>" + source + "</p>") + section("Record details", details) + "</article></section>");
+  app.innerHTML = page("Prompt record", escapeHtml(record.title), escapeHtml(record.description || "Reusable prompt record."), '<section class="container record-layout"><div class="record-actions"><a class="button button-secondary" href="' + href("library") + '">Back to library</a><a class="button" href="' + publisherHref("edit", { prompt: record.path }) + '">Edit this prompt</a></div><article class="record-content">' + section("Use case and purpose", paragraph(record.useCase || record.description)) + section("Required inputs", inputs) + section("Expected output and next steps", paragraph([record.expectedOutput, record.nextSteps].filter(Boolean).join("\n\n"))) + section("Additional instructions and notes", paragraph(record.additionalInstructionsNotes)) + section("Demo", '<dl class="definition-list"><div><dt>Recommended</dt><dd>' + (record.demoRecommended ? "Yes" : "No") + "</dd></div><div><dt>Recording</dt><dd>" + recording + "</dd></div></dl>") + promptSection + section("Contact", '<dl class="definition-list"><div><dt>Name</dt><dd>' + escapeHtml(record.contactName || "Not provided.") + "</dd></div><div><dt>Email</dt><dd>" + escapeHtml(record.contactEmail || "Not provided.") + "</dd></div></dl>") + section("Source", "<p>" + source + "</p>") + section("Record details", details) + "</article></section>");
+  const copyButton = document.querySelector("#copy-prompt");
+  const copyStatus = document.querySelector("#copy-prompt-status");
+  if (copyButton && promptText) {
+    copyButton.addEventListener("click", async () => {
+      try {
+        await copyText(promptText);
+        copyButton.textContent = "Copied";
+        copyStatus.textContent = "Prompt copied to the clipboard.";
+        window.setTimeout(() => { copyButton.textContent = "Copy prompt"; }, 1800);
+      } catch {
+        copyStatus.textContent = "Copy failed. Select the prompt text and copy it manually.";
+      }
+    });
+  }
 }
 
 function input(label, key, value, rows, hint) {
