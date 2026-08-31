@@ -1,6 +1,7 @@
 let app;
 const repositoryUrl = "https://github.com/michaelsheerin/oci-strategic-install-codex-repo";
 const rawRepositoryUrl = "https://raw.githubusercontent.com/michaelsheerin/oci-strategic-install-codex-repo/main";
+const publishingServiceUrl = "https://oci-strategic-install-prompt-library.msheerin01.workers.dev";
 const categories = ["analysis", "customer-preparation", "data-reporting", "project-management", "research", "technical-work", "writing-communication", "other"];
 let prompts = [];
 
@@ -55,6 +56,10 @@ function href(view, values = {}) {
   return "?" + new URLSearchParams({ view, ...values }).toString();
 }
 
+function publisherHref(view, values = {}) {
+  return window.location.origin === publishingServiceUrl ? href(view, values) : publishingServiceUrl + href(view, values);
+}
+
 function fullText(record) {
   return [record.title, record.description, record.category, ...(record.tags || []), record.useCase, record.promptText, ...(record.requiredInputs || []), record.expectedOutput, record.nextSteps, record.additionalInstructionsNotes, record.contactName, record.contactEmail].join(" ").toLowerCase();
 }
@@ -65,7 +70,7 @@ function page(kicker, title, lead, content) {
 
 function home() {
   const count = prompts.length;
-  app.innerHTML = '<section class="hero"><div class="container hero-content"><p class="eyebrow">Knowledge that compounds</p><h1>Reusable Codex prompts for RA work.</h1><p class="lead">A shared workspace for finding proven workflows, understanding their context, and contributing prompts that improve Strategic Install delivery.</p><div class="hero-actions"><a class="button" href="' + href("library") + '">Browse ' + count + ' prompts</a><a class="text-link" href="' + href("submit") + '">Submit a prompt</a></div></div></section><section class="container purpose-grid"><article><p class="number">01</p><h2>Find</h2><p>Search every record by category, use case, prompt text, inputs, output, notes, or contact details.</p></article><article><p class="number">02</p><h2>Run</h2><p>Open the record, confirm context and inputs, then use sanitized information.</p></article><article><p class="number">03</p><h2>Improve</h2><p>Submit a workflow or edit an existing record so team knowledge stays current.</p></article></section><section class="container action-grid"><a class="action-card" href="' + href("library") + '"><span>Prompt library</span><strong>Browse and filter records</strong><small>' + count + ' published prompts</small></a><a class="action-card" href="' + href("readme") + '"><span>Repository overview</span><strong>Read the purpose and operating model</strong><small>Everything needed to get started</small></a><a class="action-card" href="' + href("contribute") + '"><span>Contribution guide</span><strong>Understand the sharing standard</strong><small>Clear, reusable, safe records</small></a></section>';
+  app.innerHTML = '<section class="hero"><div class="container hero-content"><p class="eyebrow">Knowledge that compounds</p><h1>Reusable Codex prompts for RA work.</h1><p class="lead">A shared workspace for finding proven workflows, understanding their context, and contributing prompts that improve Strategic Install delivery.</p><div class="hero-actions"><a class="button" href="' + href("library") + '">Browse ' + count + ' prompts</a><a class="text-link" href="' + publisherHref("submit") + '">Submit a prompt</a></div></div></section><section class="container purpose-grid"><article><p class="number">01</p><h2>Find</h2><p>Search every record by category, use case, prompt text, inputs, output, notes, or contact details.</p></article><article><p class="number">02</p><h2>Run</h2><p>Open the record, confirm context and inputs, then use sanitized information.</p></article><article><p class="number">03</p><h2>Improve</h2><p>Submit a workflow or edit an existing record so team knowledge stays current.</p></article></section><section class="container action-grid"><a class="action-card" href="' + href("library") + '"><span>Prompt library</span><strong>Browse and filter records</strong><small>' + count + ' published prompts</small></a><a class="action-card" href="' + href("readme") + '"><span>Repository overview</span><strong>Read the purpose and operating model</strong><small>Everything needed to get started</small></a><a class="action-card" href="' + href("contribute") + '"><span>Contribution guide</span><strong>Understand the sharing standard</strong><small>Clear, reusable, safe records</small></a></section>';
 }
 
 function library() {
@@ -100,7 +105,7 @@ function prompt(record) {
   const section = (heading, content) => "<section><h2>" + heading + "</h2>" + content + "</section>";
   const paragraph = (value) => formattedContent(value);
   const details = '<div class="detail-table"><table><tbody><tr><th>Category</th><td>' + name(record.category) + '</td></tr><tr><th>Last updated</th><td>' + escapeHtml(record.lastReviewed || "Not provided") + '</td></tr><tr><th>Record path</th><td><code>' + escapeHtml(record.path) + "</code></td></tr></tbody></table></div>";
-  app.innerHTML = page("Prompt record", escapeHtml(record.title), escapeHtml(record.description || "Reusable prompt record."), '<section class="container record-layout"><div class="record-actions"><a class="button button-secondary" href="' + href("library") + '">Back to library</a><a class="button" href="' + href("edit", { prompt: record.path }) + '">Edit this prompt</a></div><article class="record-content">' + section("Use case and purpose", paragraph(record.useCase || record.description)) + section("Required inputs", inputs) + section("Expected output and next steps", paragraph([record.expectedOutput, record.nextSteps].filter(Boolean).join("\n\n"))) + section("Additional instructions and notes", paragraph(record.additionalInstructionsNotes)) + section("Demo", '<dl class="definition-list"><div><dt>Recommended</dt><dd>' + (record.demoRecommended ? "Yes" : "No") + "</dd></div><div><dt>Recording</dt><dd>" + recording + "</dd></div></dl>") + section("Prompt text", "<pre><code>" + escapeHtml(record.promptText || "No prompt text provided.") + "</code></pre>") + section("Contact", '<dl class="definition-list"><div><dt>Name</dt><dd>' + escapeHtml(record.contactName || "Not provided.") + "</dd></div><div><dt>Email</dt><dd>" + escapeHtml(record.contactEmail || "Not provided.") + "</dd></div></dl>") + section("Source", "<p>" + source + "</p>") + section("Record details", details) + "</article></section>");
+  app.innerHTML = page("Prompt record", escapeHtml(record.title), escapeHtml(record.description || "Reusable prompt record."), '<section class="container record-layout"><div class="record-actions"><a class="button button-secondary" href="' + href("library") + '">Back to library</a><a class="button" href="' + publisherHref("edit", { prompt: record.path }) + '">Edit this prompt</a></div><article class="record-content">' + section("Use case and purpose", paragraph(record.useCase || record.description)) + section("Required inputs", inputs) + section("Expected output and next steps", paragraph([record.expectedOutput, record.nextSteps].filter(Boolean).join("\n\n"))) + section("Additional instructions and notes", paragraph(record.additionalInstructionsNotes)) + section("Demo", '<dl class="definition-list"><div><dt>Recommended</dt><dd>' + (record.demoRecommended ? "Yes" : "No") + "</dd></div><div><dt>Recording</dt><dd>" + recording + "</dd></div></dl>") + section("Prompt text", "<pre><code>" + escapeHtml(record.promptText || "No prompt text provided.") + "</code></pre>") + section("Contact", '<dl class="definition-list"><div><dt>Name</dt><dd>' + escapeHtml(record.contactName || "Not provided.") + "</dd></div><div><dt>Email</dt><dd>" + escapeHtml(record.contactEmail || "Not provided.") + "</dd></div></dl>") + section("Source", "<p>" + source + "</p>") + section("Record details", details) + "</article></section>");
 }
 
 function input(label, key, value, rows, hint) {
@@ -111,20 +116,28 @@ function input(label, key, value, rows, hint) {
 function form(record) {
   const editing = Boolean(record);
   const categoryOptions = categories.map((value) => '<option value="' + value + '"' + (record?.category === value ? " selected" : "") + ">" + name(value) + "</option>").join("");
-  app.innerHTML = page(editing ? "Prompt editor" : "Contribute", editing ? "Edit a prompt record" : "Submit a prompt", editing ? "Prepare a complete update for this record. GitHub keeps the final submission and revision history." : "Every field is optional. GitHub provides the final signed-in submission step and publishes the record automatically.", '<section class="container form-layout"><article class="form-intro"><h2>' + (editing ? "Update process" : "Sharing standard") + '</h2><p>Remove customer data, credentials, personal data, internal identifiers, and non-public source material. Use placeholders for variable information.</p><a class="text-link-dark" href="' + href("contribute") + '">Read the contribution guide</a></article><form id="prompt-form" class="prompt-form" data-path="' + escapeHtml(record?.path || "") + '">' + input("Title", "title", record?.title, 0, "Use a short, action-oriented name.") + '<label class="form-field"><span>Category</span><select name="category"><option value="">Select a category</option>' + categoryOptions + "</select></label>" + input("Use case and purpose", "useCase", record?.useCase, 5) + input("Required inputs", "requiredInputs", (record?.requiredInputs || []).map((value) => "- " + value).join("\n"), 5, "List one input per line.") + input("Expected output and next steps", "expectedOutput", [record?.expectedOutput, record?.nextSteps].filter(Boolean).join("\n\n"), 5) + input("Additional instructions and notes", "additionalNotes", record?.additionalInstructionsNotes, 5) + '<label class="form-field"><span>Is a demo recommended?</span><select name="demoRecommended"><option value="">Select an option</option><option value="No"' + (record && !record.demoRecommended ? " selected" : "") + '>No</option><option value="Yes"' + (record?.demoRecommended ? " selected" : "") + ">Yes</option></select></label>" + input("Demo recording", "demoRecording", record?.demoRecording, 0) + input("Prompt text", "promptText", record?.promptText, 14) + input("Your name", "contactName", record?.contactName, 0) + input("Your work email", "contactEmail", record?.contactEmail, 0) + '<div class="form-actions"><button class="button" type="submit">' + (editing ? "Prepare prompt update" : "Prepare submission") + '</button><a class="button button-secondary" href="' + (editing ? href("prompt", { prompt: record.path }) : href("library")) + '">Cancel</a></div><p id="submission-status" class="submission-status"></p></form></section>');
+  app.innerHTML = page(editing ? "Prompt editor" : "Contribute", editing ? "Edit a prompt record" : "Submit a prompt", editing ? "Update this record directly. The library publishes the new version automatically." : "Every field is optional. Sign in with GitHub once, then publish directly to the library.", '<section class="container form-layout"><article class="form-intro"><h2>' + (editing ? "Update process" : "Sharing standard") + '</h2><p>Remove customer data, credentials, personal data, internal identifiers, and non-public source material. Use placeholders for variable information.</p><a class="text-link-dark" href="' + href("contribute") + '">Read the contribution guide</a></article><form id="prompt-form" class="prompt-form" data-path="' + escapeHtml(record?.path || "") + '">' + input("Title", "title", record?.title, 0, "Use a short, action-oriented name.") + '<label class="form-field"><span>Category</span><select name="category"><option value="">Select a category</option>' + categoryOptions + "</select></label>" + input("Use case and purpose", "useCase", record?.useCase, 5) + input("Required inputs", "requiredInputs", (record?.requiredInputs || []).map((value) => "- " + value).join("\n"), 5, "List one input per line.") + input("Expected output and next steps", "expectedOutput", [record?.expectedOutput, record?.nextSteps].filter(Boolean).join("\n\n"), 5) + input("Additional instructions and notes", "additionalNotes", record?.additionalInstructionsNotes, 5) + '<label class="form-field"><span>Is a demo recommended?</span><select name="demoRecommended"><option value="">Select an option</option><option value="No"' + (record && !record.demoRecommended ? " selected" : "") + '>No</option><option value="Yes"' + (record?.demoRecommended ? " selected" : "") + ">Yes</option></select></label>" + input("Demo recording", "demoRecording", record?.demoRecording, 0) + input("Prompt text", "promptText", record?.promptText, 14) + input("Your name", "contactName", record?.contactName, 0) + input("Your work email", "contactEmail", record?.contactEmail, 0) + '<div class="form-actions"><button class="button" type="submit">' + (editing ? "Save prompt update" : "Publish prompt") + '</button><a class="button button-secondary" href="' + (editing ? href("prompt", { prompt: record.path }) : href("library")) + '">Cancel</a></div><p id="submission-status" class="submission-status"></p></form></section>');
   document.querySelector("#prompt-form").addEventListener("submit", async (event) => {
     event.preventDefault();
     const data = Object.fromEntries(new FormData(event.currentTarget).entries());
-    const path = event.currentTarget.dataset.path;
-    const body = [path ? "### Existing prompt record\n\n" + path : "", "### Category\n\n" + data.category, "### Use case and purpose\n\n" + data.useCase, "### Prompt text\n\n" + data.promptText, "### Required inputs\n\n" + data.requiredInputs, "### Expected output and next steps\n\n" + data.expectedOutput, "### Additional instructions and notes\n\n" + data.additionalNotes, "### Is a demo recommended?\n\n" + data.demoRecommended, "### Demo recording\n\n" + data.demoRecording, "### Your name\n\n" + data.contactName, "### Your work email\n\n" + data.contactEmail].filter(Boolean).join("\n\n");
+    data.existingPath = event.currentTarget.dataset.path;
     const status = document.querySelector("#submission-status");
+    const button = event.currentTarget.querySelector("button[type=submit]");
+    button.disabled = true;
+    status.textContent = "Publishing your prompt...";
     try {
-      await navigator.clipboard.writeText(body);
-      const query = new URLSearchParams({ template: "prompt-submission.md", title: "Prompt: " + (data.title || "Untitled prompt") });
-      window.open(repositoryUrl + "/issues/new?" + query.toString(), "_blank", "noopener");
-      status.textContent = "Your completed record is copied. Paste it into the GitHub submission, then submit.";
-    } catch {
-      status.textContent = "Clipboard access is unavailable. Use the GitHub submission form directly.";
+      const response = await fetch("/api/prompt-submissions", { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
+      const result = await response.json().catch(() => ({}));
+      if (response.status === 401 && result.signInUrl) {
+        window.location.assign(result.signInUrl);
+        return;
+      }
+      if (!response.ok) throw new Error(result.error || "The prompt was not published.");
+      const source = repositoryUrl + "/blob/main/" + result.path;
+      status.innerHTML = 'Published. The catalog refresh will add it to Browse Prompts shortly. <a href="' + source + '" target="_blank" rel="noreferrer">View the prompt record</a>.';
+    } catch (error) {
+      status.textContent = error.message || "The prompt was not published. Try again.";
+      button.disabled = false;
     }
   });
 }
@@ -162,6 +175,11 @@ function render() {
 function initialize() {
   app = document.querySelector("#app");
   if (!app) return;
+  const query = new URLSearchParams(window.location.search);
+  if ((query.get("view") === "submit" || query.get("view") === "edit") && window.location.origin !== publishingServiceUrl) {
+    window.location.replace(publishingServiceUrl + window.location.search);
+    return;
+  }
   fetch("catalog.json").then((response) => response.ok ? response.json() : Promise.reject(new Error("Catalog unavailable"))).then((records) => { prompts = records; render(); }).catch(() => { app.innerHTML = page("Prompt library", "Catalog unavailable", "The prompt records did not load.", '<section class="container fallback"><a class="button" href="' + repositoryUrl + '/tree/main/prompts">Browse prompt records in GitHub</a></section>'); });
 }
 

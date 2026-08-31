@@ -2,9 +2,9 @@
 
 ## Preferred submission method
 
-Use the [Prompt Library submission page](https://michaelsheerin.github.io/oci-strategic-install-codex-repo/?view=submit). It prepares every field in one place, then opens GitHub for the final signed-in submission step.
+Use the [Prompt Library submission page](https://oci-strategic-install-prompt-library.msheerin01.workers.dev/?view=submit). Sign in with GitHub, complete the optional fields, and publish the prompt record directly.
 
-GitHub uses an Issue only as the form transport. Every submission automatically creates a prompt record in [Browse prompts](https://michaelsheerin.github.io/oci-strategic-install-codex-repo/), with no review or manual publishing step. Browse the prompt library instead of the issue list.
+Every submission automatically creates a prompt record in [Browse prompts](https://michaelsheerin.github.io/oci-strategic-install-codex-repo/), with no review, Issue, or manual publishing step.
 
 ## Direct pull request option
 
@@ -21,6 +21,7 @@ Provide the details that help another RA understand and reuse the prompt. Every 
 | Prompt text | The complete, reusable prompt, with placeholders for variable values |
 | Required inputs | Each input a user needs before running the prompt. Write `None` when no input is required. |
 | Expected output and next steps | What Codex should produce, how to check it, and what follows |
+| Additional instructions and notes | Extra constraints, references, edge cases, or setup details |
 | Demo recommendation | Select `Yes` when a recording would materially improve adoption |
 | Demo recording | A durable internal link, if one exists |
 | Contact | Your name and work email for questions or improvement requests |
@@ -42,11 +43,11 @@ Provide the details that help another RA understand and reuse the prompt. Every 
 
 ## Automatic sharing process
 
-1. A contributor submits the form or a pull request.
-2. The automation creates or updates a Markdown record in `prompts/<category>/`.
-3. The Browse prompts page regenerates with a linked category index.
-4. Contributors with repository write access can add or improve Markdown records through pull requests.
+1. A contributor signs in with GitHub and submits the form.
+2. The service creates or updates a Markdown record in `prompts/<category>/`.
+3. The Browse prompts page regenerates automatically.
+4. Contributors with repository write access can also add or improve Markdown records through pull requests.
 
 ## Updating an existing prompt
 
-Open an issue or pull request that links the existing record. Explain what changed, why it changed, and how you tested the revised prompt. Keep the original file when practical so its history stays intact.
+Open the record in Browse prompts and select **Edit this prompt**. Explain what changed, why it changed, and how you tested the revised prompt. Keep the original file when practical so its history stays intact.

@@ -7,7 +7,7 @@ The library turns effective individual workflows into reusable team assets. Each
 ## Start here
 
 - [Browse prompts](https://michaelsheerin.github.io/oci-strategic-install-codex-repo/)
-- [Submit a prompt](https://michaelsheerin.github.io/oci-strategic-install-codex-repo/?view=submit)
+- [Submit a prompt](https://oci-strategic-install-prompt-library.msheerin01.workers.dev/?view=submit)
 - [Read the contribution guide](CONTRIBUTING.md)
 - [Use the prompt record template](prompts/_template.md)
 
@@ -26,7 +26,6 @@ The public Browse prompts page supports full-text search, category filters, demo
 
 | Location | Purpose |
 | --- | --- |
-| `.github/ISSUE_TEMPLATE/prompt-submission.yml` | Guided submission form for contributors |
 | `prompts/` | Versioned prompt records |
 | `prompts/_template.md` | Standard record format for direct pull requests |
 | `docs/` | Searchable GitHub Pages catalog |
@@ -43,8 +42,9 @@ Prompt records retain the details supplied in the form:
 3. Prompt text
 4. Required inputs
 5. Expected output and next steps
-6. Demo recommendation
-7. Demo recording link, when available
-8. Contributor name and email
+6. Additional instructions and notes
+7. Demo recommendation
+8. Demo recording link, when available
+9. Contributor name and email
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for submission guidance.

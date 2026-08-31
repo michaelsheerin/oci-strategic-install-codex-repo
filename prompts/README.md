@@ -2,7 +2,7 @@
 
 Prompt form submissions appear here automatically. No review or manual publishing step is required.
 
-[Browse with search and filters](https://michaelsheerin.github.io/oci-strategic-install-codex-repo/) · [Submit a prompt](https://michaelsheerin.github.io/oci-strategic-install-codex-repo/?view=submit) · Use GitHub repository search with `path:prompts` to search prompt text, use cases, categories, or contacts.
+[Browse with search and filters](https://michaelsheerin.github.io/oci-strategic-install-codex-repo/) · [Submit a prompt](https://oci-strategic-install-prompt-library.msheerin01.workers.dev/?view=submit) · Use GitHub repository search with `path:prompts` to search prompt text, use cases, categories, or contacts.
 
 This library contains 2 prompt records.
 
