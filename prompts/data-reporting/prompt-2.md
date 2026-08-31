@@ -4,8 +4,6 @@
 
 This prompt reconciles a newly generated CPQ rate card against the approved local Gold Standard Rate Card created in Prompt 1. It provides a repeatable validation process for future quotes and identifies whether the current CPQ Unit Selling Price matches the established customer net unit price. The prompt extracts the current CPQ rate card and compares each Selling Price to the gold-standard price generated in Prompt 1, using SKU and Unit Qty/Range together.
 
-Once this prompt is executed, it is the sales team responsibility to manually reconcile the current CPQ rate card with the generated Adjusted-Discount and validate the target Selling Price matches the Gold-Standard.
-
 ## Required inputs
 
 - <html xmlns:o="urn:schemas-microsoft-com:office:office"
@@ -72,7 +70,6 @@ Complete prompt 'Generate Gold Standard Rate Card' prior to processing this.
 
 ## Prompt text
 
-````text
 ```text
 One-line description:
 Create a read-only CPQ rate-card reconciliation workbook that compares the current CPQ Unit Selling Price against an approved local gold-standard rate card and displays only net-unit-price discrepancies.
@@ -350,7 +347,6 @@ Return the completed workbook path and report:
 - Count of missing gold-standard keys
 - Count of visible price discrepancies after the Excel filter
 ```
-````
 
 ## Contact
 
@@ -359,20 +355,20 @@ Return the completed workbook path and report:
 
 ## Source
 
-[Original form submission](https://github.com/michaelsheerin/oci-strategic-install-codex-repo/issues/2)
+Submitted directly from the Prompt Library.
 
 ## Record details
 
 | Field | Value |
 | --- | --- |
-| Category | Data Reporting |
+| Category | data-reporting |
 | Demo recommended | No |
 | Demo recording | _No response_ |
-| Submitted | 2026-08-28 |
+| Submitted | 2026-08-31 |
 
 <!-- prompt-metadata
 title: "CPQ Rate Card Reconciliation based on Gold-Standard-Rate-Card"
-description: "This prompt reconciles a newly generated CPQ rate card against the approved local Gold Standard Rate Card created in Prompt 1. It provides a repeatable validation process for future quotes and identifies whether the curr"
+description: "This prompt reconciles a newly generated CPQ rate card against the approved local Gold Standard Rate Card created in Prompt 1. It provides a repeatable validation process for future quotes and identifies whether the current CPQ Unit Selling"
 category: "data-reporting"
 tags: []
 required_inputs: ["<html xmlns:o=\"urn:schemas-microsoft-com:office:office\"","xmlns:dt=\"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882\"","xmlns=\"http://www.w3.org/TR/REC-html40\">","<head>","<meta name=ProgId content=OneNote.File>","<meta name=Generator content=\"Microsoft OneNote 15\">","</head>","<body lang=en-US style='font-family:Calibri;font-size:11.0pt'>","<!--StartFragment-->","<div style='direction:ltr'>","Input | Requirement","-- | --","Output   folder | Optional.   Specify a folder only when it differs from the Gold Standard Rate Card file   location.","Gold   Standard Rate Card file | Provide the local Gold-Standard-Rate-Card.xlsx file created through Prompt 1, or an   approved existing gold-standard file.","Current   CPQ link | Provide   the CPQ quote link for the rate card being evaluated. Codex extracts the   dynamic CPQ identifier from the link for file and tab naming.","</div>","<!--EndFragment-->","</body>","</html>"]
@@ -383,6 +379,6 @@ demo_recommended: false
 demo_recording: "_No response_"
 contact_name: "Michael Sheerin"
 contact_email: "michael.sheerin@oracle.com"
-source_issue: "https://github.com/michaelsheerin/oci-strategic-install-codex-repo/issues/2"
-last_reviewed: "2026-08-28"
+source_issue: ""
+last_reviewed: "2026-08-31"
 -->
