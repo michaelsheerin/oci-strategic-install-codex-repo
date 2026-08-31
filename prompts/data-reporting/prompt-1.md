@@ -65,36 +65,7 @@ CPQ-Gold_to_SPA   Validation | Editable   comparison view. Includes SKU, Product
 
 ## Additional instructions and notes
 
-<html xmlns:o="urn:schemas-microsoft-com:office:office"
-xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882"
-xmlns="http://www.w3.org/TR/REC-html40">
-
-<head>
-
-<meta name=ProgId content=OneNote.File>
-<meta name=Generator content="Microsoft OneNote 15">
-</head>
-
-<body lang=en-US style='font-family:Calibri;font-size:11.0pt'>
-<!--StartFragment-->
-
-<div style='direction:ltr'>
-
-
-Excel Tabs | Content
--- | --
-CPQ-Gold-Standard | Read-only   source extraction from the trusted CPQ quote. Includes Product Category, SKU,   description, metric, discount fields, quantity, list price, selling price,   overage price, and LOA.
-SPA-Rate-Card_YYYY-MM-DD | SPA   source data after zero net-price rows are removed and remaining rows are   sorted by Net Unit Price in ascending order. The date reflects the source   file Date Modified value.
-CPQ-Gold_to_SPA   Validation | Editable   comparison view. Includes SKU, Product Name, Product Category,   CPQ-Selling-Price, Rate-Card-Net-Price, and CPQ-SPA-Difference. This will be   manually evaluated by sales teams to reconcile differences and edit   CPQ-Gold-Standard tab.
-
-
-
-</div>
-
-<!--EndFragment-->
-</body>
-
-</html>
+Not provided.
 
 ## Demo
 
@@ -103,7 +74,6 @@ CPQ-Gold_to_SPA   Validation | Editable   comparison view. Includes SKU, Product
 
 ## Prompt text
 
-````text
 ```text
 Create a local Gold Standard Rate Card reconciliation workbook.
 
@@ -244,7 +214,6 @@ Save Gold-Standard-Rate-Card.xlsx in the requested output directory. Report:
 - Number of SKU not found exceptions
 - Number of nonzero CPQ-SPA differences
 ```
-````
 
 ## Contact
 
@@ -253,30 +222,30 @@ Save Gold-Standard-Rate-Card.xlsx in the requested output directory. Report:
 
 ## Source
 
-[Original form submission](https://github.com/michaelsheerin/oci-strategic-install-codex-repo/issues/1)
+Submitted directly from the Prompt Library.
 
 ## Record details
 
 | Field | Value |
 | --- | --- |
-| Category | Data Reporting |
+| Category | data-reporting |
 | Demo recommended | No |
 | Demo recording | _No response_ |
-| Submitted | 2026-08-28 |
+| Submitted | 2026-08-31 |
 
 <!-- prompt-metadata
 title: "Generate Gold Standard Rate Card for CPQ Reconciliation"
-description: "This prompt establishes a local Gold Standard Rate Card from a previously validated CPQ quote. This approved CPQ baseline creates a consistent reference point for reconciliation analysis of future CPQ quotes. The prompt "
+description: "This prompt establishes a local Gold Standard Rate Card from a previously validated CPQ quote. This approved CPQ baseline creates a consistent reference point for reconciliation analysis of future CPQ quotes. The prompt also compares the p"
 category: "data-reporting"
 tags: []
 required_inputs: ["<html xmlns:o=\"urn:schemas-microsoft-com:office:office\"","xmlns:dt=\"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882\"","xmlns=\"http://www.w3.org/TR/REC-html40\">","<head>","<meta name=ProgId content=OneNote.File>","<meta name=Generator content=\"Microsoft OneNote 15\">","</head>","<body lang=en-US style='font-family:Calibri;font-size:11.0pt'>","<!--StartFragment-->","<div style='direction:ltr'>","Input | Requirement","-- | --","SPA Rate Card file | Download   the SPA rate card before starting. Provide the local file path. The source   supports CSV or Excel, with variable length and column order.","Validated CPQ link | Provide   a link to a CPQ quote whose rate card has been manually validated with   confidence. This quote supplies the proposed gold-standard baseline.","Output folder | Optional.   Specify a folder only when it differs from the SPA source folder.","</div>","<!--EndFragment-->","</body>","</html>"]
 expected_output: "Excel file called Gold-Standard-Rate-Card.xlsx with following tabs:\n\n<html xmlns:o=\"urn:schemas-microsoft-com:office:office\"\nxmlns:dt=\"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882\"\nxmlns=\"http://www.w3.org/TR/REC-html40\">\n\n<head>\n\n<meta name=ProgId content=OneNote.File>\n<meta name=Generator content=\"Microsoft OneNote 15\">\n</head>\n\n<body lang=en-US style='font-family:Calibri;font-size:11.0pt'>\n<!--StartFragment-->\n\n<div style='direction:ltr'>\n\n\nExcel Tabs | Content\n-- | --\nCPQ-Gold-Standard | Read-only   source extraction from the trusted CPQ quote. Includes Product Category, SKU,   description, metric, discount fields, quantity, list price, selling price,   overage price, and LOA.\nSPA-Rate-Card_YYYY-MM-DD | SPA   source data after zero net-price rows are removed and remaining rows are   sorted by Net Unit Price in ascending order. The date reflects the source   file Date Modified value.\nCPQ-Gold_to_SPA   Validation | Editable   comparison view. Includes SKU, Product Name, Product Category,   CPQ-Selling-Price, Rate-Card-Net-Price, and CPQ-SPA-Difference. This will be   manually evaluated by sales teams to reconcile differences and edit   CPQ-Gold-Standard tab.\n\n\n\n</div>\n\n<!--EndFragment-->\n</body>\n\n</html>"
 next_steps: ""
-additional_instructions_notes: "<html xmlns:o=\"urn:schemas-microsoft-com:office:office\"\nxmlns:dt=\"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882\"\nxmlns=\"http://www.w3.org/TR/REC-html40\">\n\n<head>\n\n<meta name=ProgId content=OneNote.File>\n<meta name=Generator content=\"Microsoft OneNote 15\">\n</head>\n\n<body lang=en-US style='font-family:Calibri;font-size:11.0pt'>\n<!--StartFragment-->\n\n<div style='direction:ltr'>\n\n\nExcel Tabs | Content\n-- | --\nCPQ-Gold-Standard | Read-only   source extraction from the trusted CPQ quote. Includes Product Category, SKU,   description, metric, discount fields, quantity, list price, selling price,   overage price, and LOA.\nSPA-Rate-Card_YYYY-MM-DD | SPA   source data after zero net-price rows are removed and remaining rows are   sorted by Net Unit Price in ascending order. The date reflects the source   file Date Modified value.\nCPQ-Gold_to_SPA   Validation | Editable   comparison view. Includes SKU, Product Name, Product Category,   CPQ-Selling-Price, Rate-Card-Net-Price, and CPQ-SPA-Difference. This will be   manually evaluated by sales teams to reconcile differences and edit   CPQ-Gold-Standard tab.\n\n\n\n</div>\n\n<!--EndFragment-->\n</body>\n\n</html>"
+additional_instructions_notes: ""
 demo_recommended: false
 demo_recording: "_No response_"
 contact_name: "Michael Sheerin"
 contact_email: "michael.sheerin@oracle.com"
-source_issue: "https://github.com/michaelsheerin/oci-strategic-install-codex-repo/issues/1"
-last_reviewed: "2026-08-28"
+source_issue: ""
+last_reviewed: "2026-08-31"
 -->
