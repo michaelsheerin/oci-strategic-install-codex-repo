@@ -18,6 +18,13 @@ function cleanText(value) {
   return documentFragment.body.textContent.replace(/__PROMPT_PLACEHOLDER_(\d+)__/g, (_, index) => "<" + placeholders[Number(index)] + ">").replace(/\u00a0/g, " ").trim();
 }
 
+function demoRecordingLink(value) {
+  const recording = cleanText(value).trim();
+  const placeholder = new Set(["", "_no response_", "no response", "n/a", "na", "none", "not provided"]);
+  if (placeholder.has(recording.toLowerCase())) return "No recording.";
+  return '<a href="' + escapeHtml(recording) + '" target="_blank" rel="noreferrer">Open recording</a>';
+}
+
 function formattedContent(value) {
   const lines = cleanText(value || "Not provided.").replace(/\r/g, "").split("\n").map((line) => line.trim()).filter(Boolean);
   const blocks = [];
@@ -119,7 +126,7 @@ function prompt(record) {
   const requiredInputValues = record.requiredInputs || [];
   const inputs = requiredInputValues.length && requiredInputValues.every((value) => !cleanText(value).includes("|") && !cleanText(value).includes("\n")) ? "<ul>" + requiredInputValues.map((value) => "<li>" + escapeHtml(cleanText(value)) + "</li>").join("") + "</ul>" : formattedContent(requiredInputValues.join("\n"));
   const source = record.sourceIssue ? '<a href="' + escapeHtml(record.sourceIssue) + '" target="_blank" rel="noreferrer">Original form submission</a>' : "Not provided.";
-  const recording = record.demoRecording ? '<a href="' + escapeHtml(record.demoRecording) + '" target="_blank" rel="noreferrer">Open recording</a>' : "Not provided.";
+  const recording = demoRecordingLink(record.demoRecording);
   const markdownRecordUrl = repositoryUrl + "/blob/main/" + record.path.split("/").map(encodeURIComponent).join("/");
   const section = (heading, content) => "<section><h2>" + heading + "</h2>" + content + "</section>";
   const paragraph = (value) => formattedContent(value);
