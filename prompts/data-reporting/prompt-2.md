@@ -2,7 +2,8 @@
 
 ## Use case and purpose
 
-This prompt reconciles a newly generated CPQ rate card against the approved local Gold Standard Rate Card created in Prompt 1. It provides a repeatable validation process for future quotes and identifies whether the current CPQ Unit Selling Price matches the established customer net unit price. The prompt extracts the current CPQ rate card and compares each Selling Price to the gold-standard price generated in Prompt 1, using SKU and Unit Qty/Range together.
+This prompt reconciles a newly generated CPQ rate card against the approved local Gold Standard Rate Card created in Prompt 'Generate Gold Standard Rate Card for CPQ Reconciliation'.
+This provides a repeatable validation process for future quotes and identifies whether the current CPQ Unit Selling Price matches the established customer net unit price. The prompt extracts the current CPQ rate card and compares each Selling Price to the gold-standard price generated in Prompt 1, using SKU and Unit Qty/Range together.
 
 ## Required inputs
 
@@ -62,7 +63,9 @@ gold-standard-rate-card | Local   copy of the approved gold-standard data. Zero 
 ## Additional instructions and notes
 
 1. Complete prompt 'Generate Gold Standard Rate Card' prior to executing this prompt.
-2. Once output is generated, sales team needs to manually reconcile CPQ with the provided discount and target net price
+2. Capture net new CPQ quote link that you are trying to reconcile the rate card for.
+3. Post the link and file location in the prompt Inputs fields.
+4. Once output is generated, sales team needs to manually reconcile CPQ with the provided discount and target net price as produced in the output Excel
 
 ## Demo
 
@@ -369,13 +372,13 @@ Submitted directly from the Prompt Library.
 
 <!-- prompt-metadata
 title: "CPQ Rate Card Reconciliation based on Gold-Standard-Rate-Card"
-description: "This prompt reconciles a newly generated CPQ rate card against the approved local Gold Standard Rate Card created in Prompt 1. It provides a repeatable validation process for future quotes and identifies whether the current CPQ Unit Selling"
+description: "This prompt reconciles a newly generated CPQ rate card against the approved local Gold Standard Rate Card created in Prompt 'Generate Gold Standard Rate Card for CPQ Reconciliation'. This provides a repeatable validation process for future"
 category: "data-reporting"
 tags: []
 required_inputs: ["<html xmlns:o=\"urn:schemas-microsoft-com:office:office\"","xmlns:dt=\"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882\"","xmlns=\"http://www.w3.org/TR/REC-html40\">","<head>","<meta name=ProgId content=OneNote.File>","<meta name=Generator content=\"Microsoft OneNote 15\">","</head>","<body lang=en-US style='font-family:Calibri;font-size:11.0pt'>","<!--StartFragment-->","<div style='direction:ltr'>","Input | Requirement","-- | --","Output   folder | Optional.   Specify a folder only when it differs from the Gold Standard Rate Card file   location.","Gold   Standard Rate Card file | Provide the local Gold-Standard-Rate-Card.xlsx file created through Prompt 1, or an   approved existing gold-standard file.","Current   CPQ link | Provide   the CPQ quote link for the rate card being evaluated. Codex extracts the   dynamic CPQ identifier from the link for file and tab naming.","</div>","<!--EndFragment-->","</body>","</html>"]
 expected_output: "<html xmlns:o=\"urn:schemas-microsoft-com:office:office\"\nxmlns:dt=\"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882\"\nxmlns=\"http://www.w3.org/TR/REC-html40\">\n\n<head>\n\n<meta name=ProgId content=OneNote.File>\n<meta name=Generator content=\"Microsoft OneNote 15\">\n</head>\n\n<body lang=en-US style='font-family:Calibri;font-size:11.0pt'>\n<!--StartFragment-->\n\n<div style='direction:ltr'>\n\n\nExcel Tabs | Content\n-- | --\nCPQ-<CPQ_NUMBER>   reconciliation | Editable    reconciliation view containing original data from extracted CPQ rate card,    and:         Target Gold-Standard-Selling-Price that you will         reconcile to via manual edits in CPQ     The Difference in         Gold-Standard and current CPQ Selling Price (for reference only)     The target         Adjusted-Discount that you will apply manually in CPQ to reach the         target Gold-Standard-Selling-Price\nCPQ-<CPQ_NUMBER>_Rate-Card | Read-only   local extraction of the current CPQ rate card. Includes all extracted SKU   records, including zero-selling-price rows.\ngold-standard-rate-card | Local   copy of the approved gold-standard data. Zero Unit Selling Price records are   removed. Lookup Key combines SKU and Unit Qty/Range to support accurate   tiered-price matching.\n\n\n\n</div>\n\n<!--EndFragment-->\n</body>\n\n</html>"
 next_steps: ""
-additional_instructions_notes: "1. Complete prompt 'Generate Gold Standard Rate Card' prior to executing this prompt.\n2. Once output is generated, sales team needs to manually reconcile CPQ with the provided discount and target net price"
+additional_instructions_notes: "1. Complete prompt 'Generate Gold Standard Rate Card' prior to executing this prompt.\n2. Capture net new CPQ quote link that you are trying to reconcile the rate card for.\n3. Post the link and file location in the prompt Inputs fields.\n4. Once output is generated, sales team needs to manually reconcile CPQ with the provided discount and target net price as produced in the output Excel"
 demo_recommended: false
 demo_recording: "_No response_"
 contact_name: "Michael Sheerin"
