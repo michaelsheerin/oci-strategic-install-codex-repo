@@ -10,5 +10,5 @@ This library contains 2 prompt records.
 
 | Prompt | Use case | Contact |
 | --- | --- | --- |
-| [CPQ Rate Card Reconciliation based on Gold-Standard-Rate-Card](./data-reporting/prompt-2.md) | This prompt reconciles a newly generated CPQ rate card against the approved local Gold Standard Rate Card created in Prompt 1. It provides a repeatable validation process for future quotes and identifies whether the curr | Michael Sheerin |
+| [CPQ Rate Card Reconciliation based on Gold-Standard-Rate-Card](./data-reporting/prompt-2.md) | This prompt reconciles a newly generated CPQ rate card against the approved local Gold Standard Rate Card created in Prompt 1. It provides a repeatable validation process for future quotes and identifies whether the current CPQ Unit Selling | Michael Sheerin |
 | [Generate Gold Standard Rate Card for CPQ Reconciliation](./data-reporting/prompt-1.md) | This prompt establishes a local Gold Standard Rate Card from a previously validated CPQ quote. This approved CPQ baseline creates a consistent reference point for reconciliation analysis of future CPQ quotes. The prompt  | Michael Sheerin |

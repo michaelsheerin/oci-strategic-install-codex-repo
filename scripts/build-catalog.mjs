@@ -9,12 +9,20 @@ const outputPath = path.join(repositoryRoot, "docs", "catalog.json");
 
 function section(body, heading) {
   const escaped = heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const match = body.match(new RegExp(`^## ${escaped}\\s*\\n([\\s\\S]*?)(?=^## |$)`, "m"));
-  return match ? match[1].trim() : "";
+  const headingMatch = new RegExp(`^## ${escaped}[ \\t]*\\r?$`, "m").exec(body);
+  if (!headingMatch) return "";
+
+  const lineEnd = body.indexOf("\n", headingMatch.index);
+  const content = body.slice(lineEnd < 0 ? body.length : lineEnd + 1);
+  const nextHeading = content.search(/^##[ \\t]+/m);
+  return (nextHeading < 0 ? content : content.slice(0, nextHeading)).trim();
 }
 
 function cleanPromptText(value) {
-  return value.replace(/^`{3,}text\s*\n?/i, "").replace(/\n?`{3,}\s*$/, "").trim();
+  return value
+    .replace(/^(?:`{3,}[^\r\n]*\r?\n)+/i, "")
+    .replace(/(?:\r?\n`{3,}\s*)+$/, "")
+    .trim();
 }
 
 const records = promptFiles(promptsRoot)
