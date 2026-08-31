@@ -306,20 +306,18 @@ If a current CPQ Lookup Key does not exist in the gold-standard tab:
 - Do not assign another row’s price.
 - Keep the record visible for account-team review.
 
-9. Apply the editable Excel discrepancy filter
-
-Convert the reconciliation range into a standard Excel table with filter controls enabled.
-
-Apply an Excel filter to the cpq-difference column:
-
-cpq-difference <> 0
-
-Do not delete rows with zero differences.
-
-When the current CPQ fully matches the gold standard:
-
-- The reconciliation tab should display headers only because all data rows are filtered out.
-- All records must remain in the table and become visible when the user clears or edits the Excel filter.
+9. Apply and persist the editable Excel discrepancy filter
+Convert the full reconciliation range into a standard Excel table with filter controls enabled.
+Apply an active filter to the cpq-difference column using:
+cpq-difference does not equal numeric 0
+The saved workbook must open with this filter already active. The filter dropdown alone is insufficient.
+Verify the displayed reconciliation sheet after saving and reopening:
+- Only nonzero cpq-difference rows appear.
+- If every cpq-difference equals 0, only table headers appear.
+- Zero-difference records remain in the table.
+- Clearing or editing the Excel table filter exposes all retained records.
+- Missing Gold Standard Key records remain visible for review.
+Do not delete reconciliation records to achieve the filtered result.
 
 10. Final validation
 
