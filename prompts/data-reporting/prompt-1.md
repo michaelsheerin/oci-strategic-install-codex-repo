@@ -5,7 +5,6 @@
 This prompt establishes a local Gold Standard Rate Card from a previously validated CPQ quote. This approved CPQ baseline creates a consistent reference point for reconciliation analysis of future CPQ quotes.
 
 The prompt also compares the prior validated CPQ rate card to the downloaded SPA rate card for an additional validation layer. It identifies differences but does not determine which system is correct or change source-system pricing. The sales team reviews reported differences at its discretion, validates the agreed net unit price against ordering documents and deal-team guidance, and completes any required manual updates to the local gold-standard rate card.
-TEST2
 
 ## Required inputs
 
