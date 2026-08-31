@@ -19,11 +19,21 @@ function cleanText(value) {
   return documentFragment.body.textContent.replace(/__PROMPT_PLACEHOLDER_(\d+)__/g, (_, index) => "<" + placeholders[Number(index)] + ">").replace(/\u00a0/g, " ").trim();
 }
 
-function demoRecordingLink(value) {
+function demoRecordingUrl(value) {
   const recording = cleanText(value).trim();
   const placeholder = new Set(["", "_no response_", "no response", "n/a", "na", "none", "not provided"]);
-  if (placeholder.has(recording.toLowerCase())) return "No recording.";
-  return '<a href="' + escapeHtml(recording) + '" target="_blank" rel="noreferrer">Open recording</a>';
+  if (placeholder.has(recording.toLowerCase())) return "";
+  try {
+    const url = new URL(recording);
+    return ["http:", "https:"].includes(url.protocol) ? url.href : "";
+  } catch {
+    return "";
+  }
+}
+
+function demoRecordingLink(value) {
+  const recording = demoRecordingUrl(value);
+  return recording ? '<a href="' + escapeHtml(recording) + '" target="_blank" rel="noreferrer">Open recording</a>' : "No recording.";
 }
 
 function formattedContent(value) {
@@ -68,6 +78,17 @@ function publisherHref(view, values = {}) {
   return window.location.origin === publishingServiceUrl ? href(view, values) : publishingServiceUrl + href(view, values);
 }
 
+function creatorKey(record) {
+  return [cleanText(record.contactName).trim(), cleanText(record.contactEmail).trim()].filter(Boolean).join(" | ");
+}
+
+function displayDate(value) {
+  const dateValue = cleanText(value).trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateValue)) return dateValue || "Not provided";
+  const date = new Date(`${dateValue}T00:00:00Z`);
+  return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" }).format(date);
+}
+
 async function copyText(value) {
   if (navigator.clipboard?.writeText && window.isSecureContext) {
     await navigator.clipboard.writeText(value);
@@ -101,25 +122,31 @@ function home() {
 
 function library() {
   const activeCategories = [...new Set(prompts.map((record) => record.category || "other"))].sort();
-  const options = activeCategories.map((value) => '<option value="' + value + '">' + name(value) + '</option>').join("");
-  app.innerHTML = page("Prompt catalog", "Browse the library", "Search every prompt record from one place, then open or edit the record that fits your work.", '<section class="library-section"><div class="container"><div class="section-heading"><div><p class="eyebrow">Search and filter</p><h2>Prompt records</h2></div><p id="result-count" class="result-count"></p></div><p class="filter-description">Search includes titles, categories, use cases, prompt text, required inputs, expected output, notes, tags, and contact details.</p><div class="filters"><label><span>Search</span><input id="search" type="search" placeholder="Search the full prompt library"></label><label><span>Category</span><select id="category"><option value="">All categories</option>' + options + '</select></label><label><span>Demo</span><select id="demo"><option value="">Any demo status</option><option value="recommended">Demo recommended</option><option value="not-recommended">No demo recommended</option></select></label><label><span>Sort</span><select id="sort"><option value="title">Title, A to Z</option><option value="newest">Newest first</option></select></label><button id="clear-filters" class="button button-secondary clear-filters">Clear filters</button></div><div id="category-facets" class="category-facets"></div><div class="table-wrap"><table class="prompt-table"><thead><tr><th>Prompt</th><th>Use case</th><th>Category</th><th>Demo</th><th>Updated</th><th><span class="sr-only">Open</span></th></tr></thead><tbody id="prompt-list"></tbody></table></div></div></section>');
+  const categoriesOptions = activeCategories.map((value) => '<option value="' + value + '">' + name(value) + '</option>').join("");
+  const creators = [...new Set(prompts.map(creatorKey).filter(Boolean))].sort((left, right) => left.localeCompare(right));
+  const creatorOptions = creators.map((value) => '<option value="' + escapeHtml(value) + '">' + escapeHtml(value) + '</option>').join("");
+  app.innerHTML = page("Prompt catalog", "Browse the library", "Search every prompt record from one place, then open the record that fits your work.", '<section class="library-section"><div class="container"><div class="section-heading"><div><p class="eyebrow">Search and filter</p><h2>Prompt records</h2></div><p id="result-count" class="result-count"></p></div><p class="filter-description">Search includes titles, categories, use cases, prompt text, required inputs, output, notes, and creator details.</p><div class="filters"><label><span>Search</span><input id="search" type="search" placeholder="Search the full prompt library"></label><label><span>Category</span><select id="category"><option value="">All categories</option>' + categoriesOptions + '</select></label><label><span>Creator</span><select id="creator"><option value="">All creators</option>' + creatorOptions + '</select></label><label><span>Sort</span><select id="sort"><option value="title">Title, A to Z</option><option value="newest">Newest first</option></select></label><button id="clear-filters" class="button button-secondary clear-filters">Clear filters</button></div><div class="table-wrap"><table class="prompt-table prompt-directory"><thead><tr><th>Prompt</th><th>Creator</th><th>Demo video</th><th>Updated</th><th><span class="sr-only">View details</span></th></tr></thead><tbody id="prompt-list"></tbody></table></div></div></section>');
 
   const search = document.querySelector("#search");
   const category = document.querySelector("#category");
-  const demo = document.querySelector("#demo");
+  const creator = document.querySelector("#creator");
   const sort = document.querySelector("#sort");
   const count = document.querySelector("#result-count");
   const list = document.querySelector("#prompt-list");
-  const facets = document.querySelector("#category-facets");
   const update = () => {
-    const visible = prompts.filter((record) => (!category.value || record.category === category.value) && (!demo.value || (demo.value === "recommended" ? record.demoRecommended : !record.demoRecommended)) && (!search.value || fullText(record).includes(search.value.toLowerCase()))).sort((left, right) => sort.value === "newest" ? String(right.lastReviewed || "").localeCompare(String(left.lastReviewed || "")) : String(left.title).localeCompare(String(right.title)));
+    const visible = prompts.filter((record) => (!category.value || record.category === category.value) && (!creator.value || creatorKey(record) === creator.value) && (!search.value || fullText(record).includes(search.value.toLowerCase()))).sort((left, right) => sort.value === "newest" ? String(right.lastReviewed || "").localeCompare(String(left.lastReviewed || "")) : String(left.title).localeCompare(String(right.title)));
     count.textContent = visible.length + " of " + prompts.length + " prompts";
-    facets.innerHTML = activeCategories.map((value) => '<button class="facet' + (category.value === value ? " is-active" : "") + '" data-category="' + value + '">' + name(value) + " <span>" + prompts.filter((record) => record.category === value).length + "</span></button>").join("");
-    list.innerHTML = visible.length ? visible.map((record) => '<tr><td><a class="prompt-title" href="' + href("prompt", { prompt: record.path }) + '">' + escapeHtml(record.title) + '</a></td><td>' + escapeHtml(record.description || "Not provided.") + '</td><td><span class="tag">' + name(record.category) + '</span></td><td>' + (record.demoRecommended ? "Recommended" : "Not recommended") + '</td><td>' + escapeHtml(record.lastReviewed || "Not provided") + '</td><td><a class="table-link" href="' + href("prompt", { prompt: record.path }) + '">Open</a></td></tr>').join("") : '<tr><td colspan="6"><div class="empty-state">No prompts match the selected filters.</div></td></tr>';
+    list.innerHTML = visible.length ? visible.map((record) => {
+      const recording = demoRecordingUrl(record.demoRecording);
+      const contactName = cleanText(record.contactName).trim() || "Not provided";
+      const contactEmail = cleanText(record.contactEmail).trim();
+      const creatorCell = '<span class="creator-name">' + escapeHtml(contactName) + '</span>' + (contactEmail ? '<a class="creator-email" href="mailto:' + escapeHtml(contactEmail) + '">' + escapeHtml(contactEmail) + "</a>" : '<span class="creator-email">Not provided</span>');
+      const demoCell = recording ? '<a class="demo-link" href="' + escapeHtml(recording) + '" target="_blank" rel="noreferrer">Watch demo</a>' : '<span class="no-recording">No recording</span>';
+      return '<tr><td><a class="prompt-title" href="' + href("prompt", { prompt: record.path }) + '">' + escapeHtml(record.title) + '</a><span class="prompt-category">' + escapeHtml(name(record.category)) + '</span></td><td class="creator-cell">' + creatorCell + '</td><td>' + demoCell + '</td><td class="updated-date">' + escapeHtml(displayDate(record.lastReviewed)) + '</td><td><a class="details-button" href="' + href("prompt", { prompt: record.path }) + '">Details</a></td></tr>';
+    }).join("") : '<tr><td colspan="5"><div class="empty-state">No prompts match the selected filters.</div></td></tr>';
   };
-  [search, category, demo, sort].forEach((element) => element.addEventListener(element === search ? "input" : "change", update));
-  document.querySelector("#clear-filters").addEventListener("click", () => { search.value = ""; category.value = ""; demo.value = ""; sort.value = "title"; update(); });
-  facets.addEventListener("click", (event) => { const button = event.target.closest("button[data-category]"); if (button) { category.value = category.value === button.dataset.category ? "" : button.dataset.category; update(); } });
+  [search, category, creator, sort].forEach((element) => element.addEventListener(element === search ? "input" : "change", update));
+  document.querySelector("#clear-filters").addEventListener("click", () => { search.value = ""; category.value = ""; creator.value = ""; sort.value = "title"; update(); });
   update();
 }
 
