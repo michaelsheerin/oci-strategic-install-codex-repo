@@ -5,6 +5,7 @@
 This prompt establishes a local Gold Standard Rate Card from a previously validated CPQ quote. This approved CPQ baseline creates a consistent reference point for reconciliation analysis of future CPQ quotes.
 
 The prompt also compares the prior validated CPQ rate card to the downloaded SPA rate card for an additional validation layer. It identifies differences but does not determine which system is correct or change source-system pricing. The sales team reviews reported differences at its discretion, validates the agreed net unit price against ordering documents and deal-team guidance, and completes any required manual updates to the local gold-standard rate card.
+TEST
 
 ## Required inputs
 
@@ -241,7 +242,7 @@ tags: []
 required_inputs: ["<html xmlns:o=\"urn:schemas-microsoft-com:office:office\"","xmlns:dt=\"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882\"","xmlns=\"http://www.w3.org/TR/REC-html40\">","<head>","<meta name=ProgId content=OneNote.File>","<meta name=Generator content=\"Microsoft OneNote 15\">","</head>","<body lang=en-US style='font-family:Calibri;font-size:11.0pt'>","<!--StartFragment-->","<div style='direction:ltr'>","Input | Requirement","-- | --","SPA Rate Card file | Download   the SPA rate card before starting. Provide the local file path. The source   supports CSV or Excel, with variable length and column order.","Validated CPQ link | Provide   a link to a CPQ quote whose rate card has been manually validated with   confidence. This quote supplies the proposed gold-standard baseline.","Output folder | Optional.   Specify a folder only when it differs from the SPA source folder.","</div>","<!--EndFragment-->","</body>","</html>"]
 expected_output: "Excel file called Gold-Standard-Rate-Card.xlsx with following tabs:\n\n<html xmlns:o=\"urn:schemas-microsoft-com:office:office\"\nxmlns:dt=\"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882\"\nxmlns=\"http://www.w3.org/TR/REC-html40\">\n\n<head>\n\n<meta name=ProgId content=OneNote.File>\n<meta name=Generator content=\"Microsoft OneNote 15\">\n</head>\n\n<body lang=en-US style='font-family:Calibri;font-size:11.0pt'>\n<!--StartFragment-->\n\n<div style='direction:ltr'>\n\n\nExcel Tabs | Content\n-- | --\nCPQ-Gold-Standard | Read-only   source extraction from the trusted CPQ quote. Includes Product Category, SKU,   description, metric, discount fields, quantity, list price, selling price,   overage price, and LOA.\nSPA-Rate-Card_YYYY-MM-DD | SPA   source data after zero net-price rows are removed and remaining rows are   sorted by Net Unit Price in ascending order. The date reflects the source   file Date Modified value.\nCPQ-Gold_to_SPA   Validation | Editable   comparison view. Includes SKU, Product Name, Product Category,   CPQ-Selling-Price, Rate-Card-Net-Price, and CPQ-SPA-Difference. This will be   manually evaluated by sales teams to reconcile differences and edit   CPQ-Gold-Standard tab.\n\n\n\n</div>\n\n<!--EndFragment-->\n</body>\n\n</html>"
 next_steps: ""
-additional_instructions_notes: ""
+additional_instructions_notes: "Not provided."
 demo_recommended: false
 demo_recording: "_No response_"
 contact_name: "Michael Sheerin"
