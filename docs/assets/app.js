@@ -1,6 +1,7 @@
 let app;
 const repositoryUrl = "https://github.com/michaelsheerin/oci-strategic-install-codex-repo";
 const rawRepositoryUrl = "https://raw.githubusercontent.com/michaelsheerin/oci-strategic-install-codex-repo/main";
+const publicLibraryUrl = "https://michaelsheerin.github.io/oci-strategic-install-codex-repo/?view=library";
 const publishingServiceUrl = "https://oci-strategic-install-prompt-library.msheerin01.workers.dev";
 const categories = ["analysis", "customer-preparation", "data-reporting", "project-management", "research", "technical-work", "writing-communication", "other"];
 let prompts = [];
@@ -176,8 +177,7 @@ function form(record) {
         return;
       }
       if (!response.ok) throw new Error(result.error || "The prompt was not published.");
-      const source = repositoryUrl + "/blob/main/" + result.path;
-      status.innerHTML = 'Published. The catalog refresh will add it to Browse Prompts shortly. <a href="' + source + '" target="_blank" rel="noreferrer">View the prompt record</a>.';
+      window.location.assign(publicLibraryUrl);
     } catch (error) {
       status.textContent = error.message || "The prompt was not published. Try again.";
       button.disabled = false;
