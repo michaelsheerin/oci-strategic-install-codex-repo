@@ -128,8 +128,9 @@ function form(record) {
     try {
       const response = await fetch("/api/prompt-submissions", { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
       const result = await response.json().catch(() => ({}));
-      if (response.status === 401 && result.signInUrl) {
-        window.location.assign(result.signInUrl);
+      if (response.status === 401) {
+        const returnTo = window.location.pathname + window.location.search;
+        window.location.assign("/auth/login?return_to=" + encodeURIComponent(returnTo));
         return;
       }
       if (!response.ok) throw new Error(result.error || "The prompt was not published.");
