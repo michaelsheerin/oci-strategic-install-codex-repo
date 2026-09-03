@@ -195,9 +195,9 @@ function submissionNotice() {
   const status = query.get("submission");
   if (status !== "created" && status !== "updated") return "";
   const path = publishedRecordPath(query.get("record"));
-  const recordLink = path ? '<a href="' + escapeHtml(repositoryUrl + "/blob/main/" + path.split("/").map(encodeURIComponent).join("/")) + '" target="_blank" rel="noreferrer">Open the Markdown record</a>' : "";
+  const recordLink = path ? '<a class="submission-notice-link" href="' + escapeHtml(repositoryUrl + "/blob/main/" + path.split("/").map(encodeURIComponent).join("/")) + '" target="_blank" rel="noreferrer">View Markdown record</a>' : "";
   const action = status === "created" ? "saved" : "updated";
-  return '<section class="container submission-notice" role="status"><div><strong>Prompt record ' + action + '.</strong><span>The catalog refresh is in progress. The record will appear in this library after deployment.</span></div>' + recordLink + "</section>";
+  return '<section id="submission-notice" class="container submission-notice" role="status" aria-live="polite"><div class="submission-notice-copy"><strong>Prompt record ' + action + '.</strong><span>This temporary confirmation will disappear when you close it. The catalog is rebuilding and this library will update automatically after deployment.</span></div>' + recordLink + '<button id="dismiss-submission-notice" class="submission-notice-dismiss" type="button" aria-label="Dismiss status update" title="Dismiss status update">&times;</button></section>';
 }
 
 function libraryRedirect(result) {
@@ -274,6 +274,15 @@ function library() {
   const creators = [...new Set(prompts.map(creatorKey).filter(Boolean))].sort((left, right) => left.localeCompare(right));
   const creatorOptions = creators.map((value) => '<option value="' + escapeHtml(value) + '">' + escapeHtml(value) + '</option>').join("");
   app.innerHTML = page("Prompt catalog", "Browse the library", "Search every prompt record from one place, then open the record that fits your work.", submissionNotice() + '<section class="library-section"><div class="container"><div class="section-heading"><div><p class="eyebrow">Search and filter</p><h2>Prompt records</h2></div><p id="result-count" class="result-count"></p></div><p class="filter-description">Search includes titles, categories, use cases, prompt text, required inputs, output, notes, and creator details.</p><div class="filters"><label><span>Search</span><input id="search" type="search" placeholder="Search the full prompt library"></label><label><span>Category</span><select id="category"><option value="">All categories</option>' + categoriesOptions + '</select></label><label><span>Creator</span><select id="creator"><option value="">All creators</option>' + creatorOptions + '</select></label><label><span>Sort</span><select id="sort"><option value="title">Title, A to Z</option><option value="newest" selected>Newest first</option></select></label><button id="clear-filters" class="button button-secondary clear-filters">Clear filters</button></div><div class="table-wrap"><table class="prompt-table prompt-overview"><thead><tr><th>Prompt</th><th>Category</th><th>Creator</th><th>Demo video</th><th>Updated</th><th><span class="sr-only">View details</span></th></tr></thead><tbody id="prompt-list"></tbody></table></div></div></section>');
+
+  const dismissNotice = document.querySelector("#dismiss-submission-notice");
+  if (dismissNotice) dismissNotice.addEventListener("click", () => {
+    document.querySelector("#submission-notice")?.remove();
+    const query = new URLSearchParams(window.location.search);
+    query.delete("submission");
+    query.delete("record");
+    window.history.replaceState({}, "", window.location.pathname + (query.size ? "?" + query.toString() : ""));
+  });
 
   const search = document.querySelector("#search");
   const category = document.querySelector("#category");
