@@ -38,10 +38,19 @@ function demoRecordingLink(value) {
 }
 
 function inlineMarkdown(value) {
-  return escapeHtml(value)
-    .replace(/`([^`]+)`/g, "<code>$1</code>")
+  const protectedParts = [];
+  const protect = (html) => "__PROMPT_INLINE_" + (protectedParts.push(html) - 1) + "__";
+  const autoLink = (candidate) => {
+    const trailing = candidate.match(/[.,;:!?]+$/)?.[0] || "";
+    const url = candidate.slice(0, candidate.length - trailing.length);
+    return protect('<a href="' + url + '" target="_blank" rel="noreferrer">' + url + "</a>") + trailing;
+  };
+  const rendered = escapeHtml(value)
+    .replace(/`([^`]+)`/g, (_, code) => protect("<code>" + code + "</code>"))
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, (_, label, url) => protect('<a href="' + url + '" target="_blank" rel="noreferrer">' + label + "</a>"))
     .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
-    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noreferrer">$1</a>');
+    .replace(/https?:\/\/[^\s<]+/g, autoLink);
+  return rendered.replace(/__PROMPT_INLINE_(\d+)__/g, (_, index) => protectedParts[Number(index)]);
 }
 
 function formattedContent(value) {
@@ -229,7 +238,8 @@ async function copyText(value) {
 }
 
 function fullText(record) {
-  return [record.title, record.description, record.category, ...(record.tags || []), record.useCase, record.promptText, ...(record.requiredInputs || []), record.expectedOutput, record.nextSteps, record.additionalInstructionsNotes, record.contactName, record.contactEmail].join(" ").toLowerCase();
+  const requiredInputs = Array.isArray(record.requiredInputs) ? record.requiredInputs : [record.requiredInputs || ""];
+  return [record.title, record.description, record.category, ...(record.tags || []), record.useCase, record.promptText, ...requiredInputs, record.expectedOutput, record.nextSteps, record.additionalInstructionsNotes, record.contactName, record.contactEmail].join(" ").toLowerCase();
 }
 
 function page(kicker, title, lead, content) {
@@ -288,8 +298,8 @@ function library() {
 }
 
 function prompt(record) {
-  const requiredInputValues = record.requiredInputs || [];
-  const inputs = requiredInputValues.length && requiredInputValues.every((value) => !cleanText(value).includes("|") && !cleanText(value).includes("\n")) ? "<ul>" + requiredInputValues.map((value) => "<li>" + escapeHtml(cleanText(value)) + "</li>").join("") + "</ul>" : formattedContent(requiredInputValues.join("\n"));
+  const requiredInputContent = Array.isArray(record.requiredInputs) ? record.requiredInputs.join("\n") : record.requiredInputs;
+  const inputs = formattedContent(requiredInputContent);
   const source = record.sourceIssue ? '<a href="' + escapeHtml(record.sourceIssue) + '" target="_blank" rel="noreferrer">Original form submission</a>' : "Not provided.";
   const recording = demoRecordingLink(record.demoRecording);
   const markdownRecordUrl = repositoryUrl + "/blob/main/" + record.path.split("/").map(encodeURIComponent).join("/");
@@ -324,11 +334,12 @@ function form(record) {
   const editing = Boolean(record);
   const draft = editing ? null : readSubmissionDraft();
   const value = (key, fallback = "") => draft && Object.hasOwn(draft, key) ? draft[key] : fallback;
+  const existingRequiredInputs = Array.isArray(record?.requiredInputs) ? record.requiredInputs.join("\n") : record?.requiredInputs || "";
   const selectedCategory = value("category", record?.category || "");
   const demoRecommended = value("demoRecommended", record?.demoRecommended ? "Yes" : record ? "No" : "");
   const categoryOptions = categories.map((category) => '<option value="' + category + '"' + (selectedCategory === category ? " selected" : "") + ">" + name(category) + "</option>").join("");
   const draftMessage = draft ? "Your previous entry was restored after sign-in. Review the fields, then select Publish prompt." : "";
-  app.innerHTML = page(editing ? "Prompt editor" : "Contribute", editing ? "Edit a prompt record" : "Submit a prompt", editing ? "Update this record directly. The library publishes the new version automatically." : "Every field is optional. Sign in with GitHub once, then publish directly to the library.", '<section class="container form-layout"><article class="form-intro"><h2>' + (editing ? "Update process" : "Sharing standard") + '</h2><p>Remove customer data, credentials, personal data, internal identifiers, and non-public source material. Use placeholders for variable information.</p><a class="text-link-dark" href="' + href("contribute") + '">Read the contribution guide</a></article><form id="prompt-form" class="prompt-form" data-path="' + escapeHtml(record?.path || "") + '">' + input("Title", "title", value("title", record?.title), 0, "Use a short, action-oriented name.") + '<label class="form-field"><span>Category</span><select name="category"><option value="">Select a category</option>' + categoryOptions + "</select></label>" + input("Use case and purpose", "useCase", value("useCase", record?.useCase), 5) + input("Required inputs", "requiredInputs", value("requiredInputs", (record?.requiredInputs || []).map((inputValue) => "- " + inputValue).join("\n")), 5, "List one input per line.") + input("Expected output and next steps", "expectedOutput", value("expectedOutput", [record?.expectedOutput, record?.nextSteps].filter(Boolean).join("\n\n")), 5) + input("Additional instructions and notes", "additionalNotes", value("additionalNotes", record?.additionalInstructionsNotes), 5) + '<label class="form-field"><span>Is a demo recommended?</span><select name="demoRecommended"><option value="">Select an option</option><option value="No"' + (demoRecommended === "No" ? " selected" : "") + '>No</option><option value="Yes"' + (demoRecommended === "Yes" ? " selected" : "") + ">Yes</option></select></label>" + input("Demo recording", "demoRecording", value("demoRecording", record?.demoRecording), 0) + input("Prompt text", "promptText", value("promptText", record?.promptText), 14) + input("Your name", "contactName", value("contactName", record?.contactName), 0) + input("Your work email", "contactEmail", value("contactEmail", record?.contactEmail), 0) + '<div class="form-actions"><button class="button" type="submit">' + (editing ? "Save prompt update" : "Publish prompt") + '</button><a id="cancel-prompt-form" class="button button-secondary" href="' + (editing ? href("prompt", { prompt: record.path }) : href("library")) + '">Cancel</a></div><p id="submission-status" class="submission-status" aria-live="polite">' + escapeHtml(draftMessage) + "</p></form></section>");
+  app.innerHTML = page(editing ? "Prompt editor" : "Contribute", editing ? "Edit a prompt record" : "Submit a prompt", editing ? "Update this record directly. The library publishes the new version automatically." : "Every field is optional. Sign in with GitHub once, then publish directly to the library.", '<section class="container form-layout"><article class="form-intro"><h2>' + (editing ? "Update process" : "Sharing standard") + '</h2><p>Remove customer data, credentials, personal data, internal identifiers, and non-public source material. Use placeholders for variable information.</p><p>Multiline fields retain plain text and support Markdown headings, bold text, lists, and links. Pasted web links appear as clickable links.</p><a class="text-link-dark" href="' + href("contribute") + '">Read the contribution guide</a></article><form id="prompt-form" class="prompt-form" data-path="' + escapeHtml(record?.path || "") + '">' + input("Title", "title", value("title", record?.title), 0, "Use a short, action-oriented name.") + '<label class="form-field"><span>Category</span><select name="category"><option value="">Select a category</option>' + categoryOptions + "</select></label>" + input("Use case and purpose", "useCase", value("useCase", record?.useCase), 5) + input("Required inputs", "requiredInputs", value("requiredInputs", existingRequiredInputs), 5, "Plain text stays plain. Use Markdown for headings, bullets, or links.") + input("Expected output and next steps", "expectedOutput", value("expectedOutput", [record?.expectedOutput, record?.nextSteps].filter(Boolean).join("\n\n")), 5) + input("Additional instructions and notes", "additionalNotes", value("additionalNotes", record?.additionalInstructionsNotes), 5) + '<label class="form-field"><span>Is a demo recommended?</span><select name="demoRecommended"><option value="">Select an option</option><option value="No"' + (demoRecommended === "No" ? " selected" : "") + '>No</option><option value="Yes"' + (demoRecommended === "Yes" ? " selected" : "") + ">Yes</option></select></label>" + input("Demo recording", "demoRecording", value("demoRecording", record?.demoRecording), 0) + input("Prompt text", "promptText", value("promptText", record?.promptText), 14) + input("Your name", "contactName", value("contactName", record?.contactName), 0) + input("Your work email", "contactEmail", value("contactEmail", record?.contactEmail), 0) + '<div class="form-actions"><button class="button" type="submit">' + (editing ? "Save prompt update" : "Publish prompt") + '</button><a id="cancel-prompt-form" class="button button-secondary" href="' + (editing ? href("prompt", { prompt: record.path }) : href("library")) + '">Cancel</a></div><p id="submission-status" class="submission-status" aria-live="polite">' + escapeHtml(draftMessage) + "</p></form></section>");
   if (draft) document.querySelector("#cancel-prompt-form").addEventListener("click", clearSubmissionDraft);
   document.querySelector("#prompt-form").addEventListener("submit", async (event) => {
     event.preventDefault();
