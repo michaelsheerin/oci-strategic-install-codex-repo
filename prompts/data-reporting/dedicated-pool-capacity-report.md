@@ -17,24 +17,18 @@ Run this prompt when the report needs current dedicated-pool capacity data, shap
 
 ## Expected output and next steps
 
-The prompt creates one CSV for each selected Global-AD and a dated Excel workbook named `<Customer-Label>-Capacity-Overview_<MM.DD.YY>.xlsx`.
+Current-date CSV files by Global-AD and a consolidated Excel capacity workbook with Hypervisors and Summary tabs.
 
-The workbook includes:
-
-- A `Hypervisors` tab with complete current-date inventory rows, current capacity values, Global-AD and Tenant-AD mappings, and calculated used capacity.
-- A `Summary` tab with a Tenant-AD and Shape pivot table.
-- Optional standard-VM instance capacity columns when one VM shape and OCPU count were supplied.
-
-Review the final validation report, including counts by Global-AD, Hypervisor Shape, Tenant-AD, and total workbook rows. Resolve any authoritative-mapping or inventory-query errors before using the report.
+Review the validation report and resolve inventory or authoritative-mapping errors before using the report.
 
 ## Additional instructions and notes
 
-Requires Compute Admin MCP access and an authorized SharePoint Excel write capability. The prompt stops before writing files when authoritative Global-AD or Tenant-AD mapping is unavailable, and it does not write a partial report.
+Requires Compute Admin MCP access and an authorized SharePoint Excel write capability. The prompt stops before writing files when authoritative mapping is unavailable and does not write a partial report.
 
 ## Demo
 
 - Recommended: No
-- Recording: Not available
+- Recording: Not provided.
 
 ## Prompt text
 
@@ -304,7 +298,7 @@ Final validation
 
 ## Source
 
-Submitted from Dedicated Pool Capacity Report.txt.
+Submitted directly from the Prompt Library.
 
 ## Record details
 
@@ -312,17 +306,17 @@ Submitted from Dedicated Pool Capacity Report.txt.
 | --- | --- |
 | Category | data-reporting |
 | Demo recommended | No |
-| Demo recording | Not available |
-| Last reviewed | 2026-09-03 |
+| Demo recording | Not provided. |
+| Submitted | 2026-09-03 |
 
 <!-- prompt-metadata
 title: "Generate a Weekly Dedicated-Pool Capacity Report"
-description: "Build a current weekly dedicated-pool capacity report from Compute Admin data, with validated AD mappings, per-AD CSVs, and a consolidated Excel workbook."
+description: "Use this prompt to create a current weekly capacity report for a dedicated pool across selected regions and availability domains. It queries live Compute Admin inventory, validates Global-AD and Tenant-AD mappings from authoritative metadat"
 category: "data-reporting"
-tags: ["compute-admin", "capacity", "dedicated-pool", "excel"]
+tags: []
 required_inputs: "- Customer or report label\n- Exact pool name\n- One or more region and availability-domain targets\n- One or more exact Hypervisor shapes\n- Optional standard VM shape and positive OCPU count\n- Output directory"
-expected_output: "Current-date CSV files by Global-AD and a consolidated Excel capacity workbook with Hypervisors and Summary tabs."
-next_steps: "Review the validation report and resolve inventory or authoritative-mapping errors before using the report."
+expected_output: "Current-date CSV files by Global-AD and a consolidated Excel capacity workbook with Hypervisors and Summary tabs.\n\nReview the validation report and resolve inventory or authoritative-mapping errors before using the report."
+next_steps: ""
 additional_instructions_notes: "Requires Compute Admin MCP access and an authorized SharePoint Excel write capability. The prompt stops before writing files when authoritative mapping is unavailable and does not write a partial report."
 demo_recommended: false
 demo_recording: ""
