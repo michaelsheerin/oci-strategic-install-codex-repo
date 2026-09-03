@@ -4,6 +4,7 @@ const rawRepositoryUrl = "https://raw.githubusercontent.com/michaelsheerin/oci-s
 const publicLibraryUrl = "https://michaelsheerin.github.io/oci-strategic-install-codex-repo/?view=library";
 const publishingServiceUrl = "https://oci-strategic-install-prompt-library.msheerin01.workers.dev";
 const categories = ["analysis", "customer-preparation", "data-reporting", "project-management", "research", "technical-work", "writing-communication", "other"];
+const submissionDraftKey = "strategic-install-prompt-library-submission-draft";
 let prompts = [];
 
 function escapeHtml(value) {
@@ -78,6 +79,50 @@ function publisherHref(view, values = {}) {
   return window.location.origin === publishingServiceUrl ? href(view, values) : publishingServiceUrl + href(view, values);
 }
 
+function readSubmissionDraft() {
+  try {
+    const draft = JSON.parse(window.sessionStorage.getItem(submissionDraftKey) || "null");
+    return draft && typeof draft === "object" ? draft : null;
+  } catch {
+    return null;
+  }
+}
+
+function saveSubmissionDraft(draft) {
+  try {
+    window.sessionStorage.setItem(submissionDraftKey, JSON.stringify(draft));
+  } catch {}
+}
+
+function clearSubmissionDraft() {
+  try {
+    window.sessionStorage.removeItem(submissionDraftKey);
+  } catch {}
+}
+
+function publishedRecordPath(value) {
+  const path = String(value || "");
+  return /^prompts\/[a-z0-9-]+\/[a-z0-9-]+\.md$/.test(path) ? path : "";
+}
+
+function submissionNotice() {
+  const query = new URLSearchParams(window.location.search);
+  const status = query.get("submission");
+  if (status !== "created" && status !== "updated") return "";
+  const path = publishedRecordPath(query.get("record"));
+  const recordLink = path ? '<a href="' + escapeHtml(repositoryUrl + "/blob/main/" + path.split("/").map(encodeURIComponent).join("/")) + '" target="_blank" rel="noreferrer">Open the Markdown record</a>' : "";
+  const action = status === "created" ? "saved" : "updated";
+  return '<section class="container submission-notice" role="status"><div><strong>Prompt record ' + action + '.</strong><span>The catalog refresh is in progress. The record will appear in this library after deployment.</span></div>' + recordLink + "</section>";
+}
+
+function libraryRedirect(result) {
+  const redirect = new URL(publicLibraryUrl);
+  redirect.searchParams.set("submission", result.updated ? "updated" : "created");
+  const path = publishedRecordPath(result.path);
+  if (path) redirect.searchParams.set("record", path);
+  return redirect.toString();
+}
+
 function creatorKey(record) {
   return [cleanText(record.contactName).trim(), cleanText(record.contactEmail).trim()].filter(Boolean).join(" | ");
 }
@@ -141,7 +186,7 @@ function library() {
   const categoriesOptions = activeCategories.map((value) => '<option value="' + value + '">' + name(value) + '</option>').join("");
   const creators = [...new Set(prompts.map(creatorKey).filter(Boolean))].sort((left, right) => left.localeCompare(right));
   const creatorOptions = creators.map((value) => '<option value="' + escapeHtml(value) + '">' + escapeHtml(value) + '</option>').join("");
-  app.innerHTML = page("Prompt catalog", "Browse the library", "Search every prompt record from one place, then open the record that fits your work.", '<section class="library-section"><div class="container"><div class="section-heading"><div><p class="eyebrow">Search and filter</p><h2>Prompt records</h2></div><p id="result-count" class="result-count"></p></div><p class="filter-description">Search includes titles, categories, use cases, prompt text, required inputs, output, notes, and creator details.</p><div class="filters"><label><span>Search</span><input id="search" type="search" placeholder="Search the full prompt library"></label><label><span>Category</span><select id="category"><option value="">All categories</option>' + categoriesOptions + '</select></label><label><span>Creator</span><select id="creator"><option value="">All creators</option>' + creatorOptions + '</select></label><label><span>Sort</span><select id="sort"><option value="title">Title, A to Z</option><option value="newest" selected>Newest first</option></select></label><button id="clear-filters" class="button button-secondary clear-filters">Clear filters</button></div><div class="table-wrap"><table class="prompt-table prompt-overview"><thead><tr><th>Prompt</th><th>Category</th><th>Creator</th><th>Demo video</th><th>Updated</th><th><span class="sr-only">View details</span></th></tr></thead><tbody id="prompt-list"></tbody></table></div></div></section>');
+  app.innerHTML = page("Prompt catalog", "Browse the library", "Search every prompt record from one place, then open the record that fits your work.", submissionNotice() + '<section class="library-section"><div class="container"><div class="section-heading"><div><p class="eyebrow">Search and filter</p><h2>Prompt records</h2></div><p id="result-count" class="result-count"></p></div><p class="filter-description">Search includes titles, categories, use cases, prompt text, required inputs, output, notes, and creator details.</p><div class="filters"><label><span>Search</span><input id="search" type="search" placeholder="Search the full prompt library"></label><label><span>Category</span><select id="category"><option value="">All categories</option>' + categoriesOptions + '</select></label><label><span>Creator</span><select id="creator"><option value="">All creators</option>' + creatorOptions + '</select></label><label><span>Sort</span><select id="sort"><option value="title">Title, A to Z</option><option value="newest" selected>Newest first</option></select></label><button id="clear-filters" class="button button-secondary clear-filters">Clear filters</button></div><div class="table-wrap"><table class="prompt-table prompt-overview"><thead><tr><th>Prompt</th><th>Category</th><th>Creator</th><th>Demo video</th><th>Updated</th><th><span class="sr-only">View details</span></th></tr></thead><tbody id="prompt-list"></tbody></table></div></div></section>');
 
   const search = document.querySelector("#search");
   const category = document.querySelector("#category");
@@ -201,8 +246,14 @@ function input(label, key, value, rows, hint) {
 
 function form(record) {
   const editing = Boolean(record);
-  const categoryOptions = categories.map((value) => '<option value="' + value + '"' + (record?.category === value ? " selected" : "") + ">" + name(value) + "</option>").join("");
-  app.innerHTML = page(editing ? "Prompt editor" : "Contribute", editing ? "Edit a prompt record" : "Submit a prompt", editing ? "Update this record directly. The library publishes the new version automatically." : "Every field is optional. Sign in with GitHub once, then publish directly to the library.", '<section class="container form-layout"><article class="form-intro"><h2>' + (editing ? "Update process" : "Sharing standard") + '</h2><p>Remove customer data, credentials, personal data, internal identifiers, and non-public source material. Use placeholders for variable information.</p><a class="text-link-dark" href="' + href("contribute") + '">Read the contribution guide</a></article><form id="prompt-form" class="prompt-form" data-path="' + escapeHtml(record?.path || "") + '">' + input("Title", "title", record?.title, 0, "Use a short, action-oriented name.") + '<label class="form-field"><span>Category</span><select name="category"><option value="">Select a category</option>' + categoryOptions + "</select></label>" + input("Use case and purpose", "useCase", record?.useCase, 5) + input("Required inputs", "requiredInputs", (record?.requiredInputs || []).map((value) => "- " + value).join("\n"), 5, "List one input per line.") + input("Expected output and next steps", "expectedOutput", [record?.expectedOutput, record?.nextSteps].filter(Boolean).join("\n\n"), 5) + input("Additional instructions and notes", "additionalNotes", record?.additionalInstructionsNotes, 5) + '<label class="form-field"><span>Is a demo recommended?</span><select name="demoRecommended"><option value="">Select an option</option><option value="No"' + (record && !record.demoRecommended ? " selected" : "") + '>No</option><option value="Yes"' + (record?.demoRecommended ? " selected" : "") + ">Yes</option></select></label>" + input("Demo recording", "demoRecording", record?.demoRecording, 0) + input("Prompt text", "promptText", record?.promptText, 14) + input("Your name", "contactName", record?.contactName, 0) + input("Your work email", "contactEmail", record?.contactEmail, 0) + '<div class="form-actions"><button class="button" type="submit">' + (editing ? "Save prompt update" : "Publish prompt") + '</button><a class="button button-secondary" href="' + (editing ? href("prompt", { prompt: record.path }) : href("library")) + '">Cancel</a></div><p id="submission-status" class="submission-status"></p></form></section>');
+  const draft = editing ? null : readSubmissionDraft();
+  const value = (key, fallback = "") => draft && Object.hasOwn(draft, key) ? draft[key] : fallback;
+  const selectedCategory = value("category", record?.category || "");
+  const demoRecommended = value("demoRecommended", record?.demoRecommended ? "Yes" : record ? "No" : "");
+  const categoryOptions = categories.map((category) => '<option value="' + category + '"' + (selectedCategory === category ? " selected" : "") + ">" + name(category) + "</option>").join("");
+  const draftMessage = draft ? "Your previous entry was restored after sign-in. Review the fields, then select Publish prompt." : "";
+  app.innerHTML = page(editing ? "Prompt editor" : "Contribute", editing ? "Edit a prompt record" : "Submit a prompt", editing ? "Update this record directly. The library publishes the new version automatically." : "Every field is optional. Sign in with GitHub once, then publish directly to the library.", '<section class="container form-layout"><article class="form-intro"><h2>' + (editing ? "Update process" : "Sharing standard") + '</h2><p>Remove customer data, credentials, personal data, internal identifiers, and non-public source material. Use placeholders for variable information.</p><a class="text-link-dark" href="' + href("contribute") + '">Read the contribution guide</a></article><form id="prompt-form" class="prompt-form" data-path="' + escapeHtml(record?.path || "") + '">' + input("Title", "title", value("title", record?.title), 0, "Use a short, action-oriented name.") + '<label class="form-field"><span>Category</span><select name="category"><option value="">Select a category</option>' + categoryOptions + "</select></label>" + input("Use case and purpose", "useCase", value("useCase", record?.useCase), 5) + input("Required inputs", "requiredInputs", value("requiredInputs", (record?.requiredInputs || []).map((inputValue) => "- " + inputValue).join("\n")), 5, "List one input per line.") + input("Expected output and next steps", "expectedOutput", value("expectedOutput", [record?.expectedOutput, record?.nextSteps].filter(Boolean).join("\n\n")), 5) + input("Additional instructions and notes", "additionalNotes", value("additionalNotes", record?.additionalInstructionsNotes), 5) + '<label class="form-field"><span>Is a demo recommended?</span><select name="demoRecommended"><option value="">Select an option</option><option value="No"' + (demoRecommended === "No" ? " selected" : "") + '>No</option><option value="Yes"' + (demoRecommended === "Yes" ? " selected" : "") + ">Yes</option></select></label>" + input("Demo recording", "demoRecording", value("demoRecording", record?.demoRecording), 0) + input("Prompt text", "promptText", value("promptText", record?.promptText), 14) + input("Your name", "contactName", value("contactName", record?.contactName), 0) + input("Your work email", "contactEmail", value("contactEmail", record?.contactEmail), 0) + '<div class="form-actions"><button class="button" type="submit">' + (editing ? "Save prompt update" : "Publish prompt") + '</button><a id="cancel-prompt-form" class="button button-secondary" href="' + (editing ? href("prompt", { prompt: record.path }) : href("library")) + '">Cancel</a></div><p id="submission-status" class="submission-status" aria-live="polite">' + escapeHtml(draftMessage) + "</p></form></section>");
+  if (draft) document.querySelector("#cancel-prompt-form").addEventListener("click", clearSubmissionDraft);
   document.querySelector("#prompt-form").addEventListener("submit", async (event) => {
     event.preventDefault();
     const data = Object.fromEntries(new FormData(event.currentTarget).entries());
@@ -215,12 +266,15 @@ function form(record) {
       const response = await fetch("/api/prompt-submissions", { method: "POST", credentials: "same-origin", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
       const result = await response.json().catch(() => ({}));
       if (response.status === 401) {
+        if (!editing) saveSubmissionDraft(data);
+        status.textContent = "Sign-in is required. Your entry was saved in this browser and will be restored after sign-in.";
         const returnTo = window.location.pathname + window.location.search;
         window.location.assign("/auth/login?return_to=" + encodeURIComponent(returnTo));
         return;
       }
       if (!response.ok) throw new Error(result.error || "The prompt was not published.");
-      window.location.assign(publicLibraryUrl);
+      if (!editing) clearSubmissionDraft();
+      window.location.assign(libraryRedirect(result));
     } catch (error) {
       status.textContent = error.message || "The prompt was not published. Try again.";
       button.disabled = false;
