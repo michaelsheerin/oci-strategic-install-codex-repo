@@ -3,6 +3,7 @@
 ## Use case and purpose
 
 NOT A PROMPT
+
 Follow Confluence page instructions to access C4PO MCP Server to enable Codex to query direct APIs
 
 ## Required inputs
