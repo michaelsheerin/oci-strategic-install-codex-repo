@@ -33,7 +33,7 @@ const records = promptFiles(promptsRoot)
     description: metadata.description,
     category: metadata.category,
     tags: Array.isArray(metadata.tags) ? metadata.tags : [],
-    requiredInputs: typeof metadata.required_inputs === "string" ? metadata.required_inputs : section(body, "Required inputs"),
+    requiredInputs: typeof metadata.required_inputs === "string" ? metadata.required_inputs : Array.isArray(metadata.required_inputs) ? metadata.required_inputs.join("\n") : section(body, "Required inputs"),
     expectedOutput: metadata.expected_output,
     nextSteps: metadata.next_steps,
     additionalInstructionsNotes: metadata.additional_instructions_notes || section(body, "Additional instructions and notes"),
