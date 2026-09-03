@@ -10,6 +10,7 @@ test
 - test2
 - test 3
 - test 4
+- test 5
 
 ## Expected output and next steps
 
@@ -53,7 +54,7 @@ title: "Test"
 description: "test"
 category: "customer-preparation"
 tags: []
-required_inputs: ["test","test2","test 3","test 4"]
+required_inputs: ["test","test2","test 3","test 4","test 5"]
 expected_output: "test"
 next_steps: ""
 additional_instructions_notes: "test"
