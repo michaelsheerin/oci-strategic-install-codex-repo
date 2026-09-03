@@ -5,7 +5,6 @@
 NOT A PROMPT
 
 Follow Confluence page instructions to access C4PO MCP Server to enable Codex to query direct APIs
-test
 
 ## Required inputs
 
@@ -81,7 +80,7 @@ Submitted directly from the Prompt Library.
 
 <!-- prompt-metadata
 title: "Codex C4PO MCP Server Setup"
-description: "NOT A PROMPT Follow Confluence page instructions to access C4PO MCP Server to enable Codex to query direct APIs test"
+description: "NOT A PROMPT Follow Confluence page instructions to access C4PO MCP Server to enable Codex to query direct APIs"
 category: "data-reporting"
 tags: []
 required_inputs: ["See Confluence for prerequisites","Note: Windows does not require brew installation","When authenticating - authenticate with ocna-saml (yubikey)"]
