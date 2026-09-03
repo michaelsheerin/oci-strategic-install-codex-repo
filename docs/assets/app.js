@@ -37,34 +37,110 @@ function demoRecordingLink(value) {
   return recording ? '<a href="' + escapeHtml(recording) + '" target="_blank" rel="noreferrer">Open recording</a>' : "No recording.";
 }
 
+function inlineMarkdown(value) {
+  return escapeHtml(value)
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noreferrer">$1</a>');
+}
+
 function formattedContent(value) {
-  const lines = cleanText(value || "Not provided.").replace(/\r/g, "").split("\n").map((line) => line.trim()).filter(Boolean);
+  const lines = cleanText(value || "Not provided.").replace(/\r/g, "").split("\n");
   const blocks = [];
-  const addParagraph = (paragraphLines) => {
-    if (paragraphLines.length) blocks.push("<p>" + escapeHtml(paragraphLines.join("\n")).replaceAll("\n", "<br>") + "</p>");
-  };
   let paragraphLines = [];
+  let list = null;
+  let codeFence = "";
+  let codeLines = [];
+
+  const addParagraph = () => {
+    if (!paragraphLines.length) return;
+    blocks.push("<p>" + inlineMarkdown(paragraphLines.join(" ").replace(/\s+/g, " ").trim()) + "</p>");
+    paragraphLines = [];
+  };
+  const closeList = () => {
+    if (!list) return;
+    const typeAttribute = list.type === "ol" && list.alpha ? ' type="a"' : "";
+    const startAttribute = list.type === "ol" && list.start > 1 ? ' start="' + list.start + '"' : "";
+    blocks.push("<" + list.type + typeAttribute + startAttribute + ">" + list.items.map((item) => "<li>" + inlineMarkdown(item) + "</li>").join("") + "</" + list.type + ">");
+    list = null;
+  };
+  const addListItem = (match) => {
+    const marker = match[1];
+    const type = marker === "-" || marker === "*" || marker === "+" ? "ul" : "ol";
+    const alpha = /^[a-zA-Z][.)]$/.test(marker);
+    const start = /^\d/.test(marker) ? Number.parseInt(marker, 10) : alpha ? marker[0].toLowerCase().charCodeAt(0) - 96 : 1;
+    if (!list || list.type !== type || list.alpha !== alpha) {
+      closeList();
+      list = { type, alpha, start, items: [] };
+    }
+    list.items.push(match[2].trim());
+  };
+  const addTable = (headers, rows) => {
+    blocks.push('<div class="rich-table"><table><thead><tr>' + headers.map((cell) => "<th>" + inlineMarkdown(cell) + "</th>").join("") + "</tr></thead><tbody>" + rows.map((row) => "<tr>" + headers.map((_, cellIndex) => "<td>" + inlineMarkdown(row[cellIndex] || "") + "</td>").join("") + "</tr>").join("") + "</tbody></table></div>");
+  };
+  const cells = (line) => line.split("|").map((cell) => cell.trim()).filter(Boolean);
+
   for (let index = 0; index < lines.length; index += 1) {
-    const isTable = lines[index].includes("|") && index + 1 < lines.length && /^[\s|:-]+$/.test(lines[index + 1]);
-    if (!isTable) {
-      paragraphLines.push(lines[index]);
+    const line = lines[index];
+    const trimmed = line.trim();
+    if (codeFence) {
+      if (trimmed.startsWith(codeFence)) {
+        blocks.push("<pre><code>" + escapeHtml(codeLines.join("\n")) + "</code></pre>");
+        codeFence = "";
+        codeLines = [];
+      } else {
+        codeLines.push(line.replace(/^\s{0,4}/, ""));
+      }
       continue;
     }
-    addParagraph(paragraphLines);
-    paragraphLines = [];
-    const cells = (line) => line.split("|").map((cell) => cell.trim()).filter(Boolean);
-    const headers = cells(lines[index]);
-    const rows = [];
-    index += 2;
-    while (index < lines.length && lines[index].includes("|")) {
-      rows.push(cells(lines[index]));
-      index += 1;
+    const fence = trimmed.match(/^(`{3,}|~{3,})/);
+    if (fence) {
+      addParagraph();
+      closeList();
+      codeFence = fence[1];
+      continue;
     }
-    index -= 1;
-    blocks.push('<div class="rich-table"><table><thead><tr>' + headers.map((cell) => "<th>" + escapeHtml(cell) + "</th>").join("") + "</tr></thead><tbody>" + rows.map((row) => "<tr>" + headers.map((_, cellIndex) => "<td>" + escapeHtml(row[cellIndex] || "") + "</td>").join("") + "</tr>").join("") + "</tbody></table></div>");
+    if (!trimmed) {
+      addParagraph();
+      closeList();
+      continue;
+    }
+    const isTable = trimmed.includes("|") && index + 1 < lines.length && /^[\s|:-]+$/.test(lines[index + 1].trim());
+    if (isTable) {
+      addParagraph();
+      closeList();
+      const headers = cells(trimmed);
+      const rows = [];
+      index += 2;
+      while (index < lines.length && lines[index].includes("|")) {
+        rows.push(cells(lines[index]));
+        index += 1;
+      }
+      index -= 1;
+      addTable(headers, rows);
+      continue;
+    }
+    const heading = trimmed.match(/^#{1,6}\s+(.+)$/);
+    const scenario = trimmed.match(/^([A-Z])[.)]\s+(.+)$/);
+    if (heading || scenario) {
+      addParagraph();
+      closeList();
+      blocks.push("<h3>" + inlineMarkdown(heading ? heading[1] : scenario[1] + ". " + scenario[2]) + "</h3>");
+      continue;
+    }
+    const listItem = line.match(/^\s*((?:\d+|[a-zA-Z])[.)]|[-*+])\s+(.+)$/);
+    if (listItem) {
+      addParagraph();
+      addListItem(listItem);
+      continue;
+    }
+    closeList();
+    paragraphLines.push(trimmed);
   }
-  addParagraph(paragraphLines);
-  return blocks.join("");
+  if (codeFence) blocks.push("<pre><code>" + escapeHtml(codeLines.join("\n")) + "</code></pre>");
+  addParagraph();
+  closeList();
+  return '<div class="rich-content">' + blocks.join("") + "</div>";
 }
 
 function name(value) {

@@ -232,6 +232,17 @@ input:focus, select:focus { outline: 3px solid rgba(189, 44, 44, .18); border-co
 .record-content > section:last-child { border-bottom: 0; }
 .record-content h2, .document-content h2 { font-size: 1.35rem; }
 .record-content p, .record-content li, .document-content p, .document-content li { color: var(--muted); }
+.rich-content > :first-child { margin-top: 0; }
+.rich-content > :last-child { margin-bottom: 0; }
+.rich-content h3 { margin: 28px 0 10px; color: var(--ink); font-size: 1.03rem; line-height: 1.35; }
+.rich-content p { margin-bottom: 15px; }
+.rich-content ol, .rich-content ul { display: grid; gap: 8px; margin: 0 0 19px; padding-left: 24px; }
+.rich-content li { padding-left: 3px; }
+.rich-content li::marker { color: var(--accent); font-weight: 760; }
+.rich-content code { padding: 1px 4px; border-radius: 3px; background: #edf1f4; color: var(--ink); font-size: .9em; }
+.rich-content pre { margin: 12px 0 20px; }
+.rich-content pre code { padding: 0; background: transparent; color: inherit; }
+.rich-content a { color: var(--accent-dark); font-weight: 700; text-underline-offset: 3px; }
 .prompt-heading { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
 .prompt-heading h2 { margin: 0; }
 .copy-prompt-status { min-height: 1.25rem; margin: 0 0 10px; font-size: .88rem; }
