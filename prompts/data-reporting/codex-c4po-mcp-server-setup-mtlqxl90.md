@@ -10,9 +10,10 @@ https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=200057
 
 ## Required inputs
 
-- ### See Confluence for prerequisites
-- Note: Windows does not require brew installation
-- When authenticating - authenticate with ocna-saml (yubikey)
+### See Confluence for prerequisites
+
+1. Note: Windows does not require brew installation
+2. When authenticating - authenticate with ocna-saml (yubikey)
 
 ## Expected output and next steps
 
@@ -103,7 +104,7 @@ title: "Codex C4PO MCP Server Setup"
 description: "### NOT A PROMPT Follow Confluence page instructions to access C4PO MCP Server to enable Codex to query direct APIs https://confluence.oraclecorp.com/confluence/pages/viewpage.action?pageId=20005791874"
 category: "data-reporting"
 tags: []
-required_inputs: ["### See Confluence for prerequisites","Note: Windows does not require brew installation","When authenticating - authenticate with ocna-saml (yubikey)"]
+required_inputs: "### See Confluence for prerequisites\n\n1. Note: Windows does not require brew installation\n2. When authenticating - authenticate with ocna-saml (yubikey)"
 expected_output: "Codex able to query Compute Admin MCP server"
 next_steps: ""
 additional_instructions_notes: "Compute Admin MCP sessions can time out after about one hour and require authentication refresh. Use the matching recovery path below before sending the next Compute Admin request.\n\n### A. Current Compute Admin task already worked\n\n1. Stay in the same task.\n2. Send the next request.\n3. Do not wait or start a new task.\n\n### B. New task in any project\n\n1. Click the pencil icon to create a new project task.\n2. Wait for the blank “What should we work on?” page.\n3. Start a two-minute timer.\n4. Do not type, send a message, navigate away, or close Codex during the two-minute wait.\n5. After two full minutes, send the Compute Admin request as the first message.\n\n### C. Codex was closed, or a new day has started\n\n1. Open PowerShell.\n2. Run:\n\n```powershell\noci session refresh --profile \"bmc_operator_access\" --auth security_token\noci session validate --profile \"bmc_operator_access\" --auth security_token\n```\n\n3. If validation succeeds, open Codex.\n4. Open the required project.\n5. Click the pencil icon to create a new task.\n6. On the blank task page, wait two full minutes.\n7. Send the Compute Admin request.\n\n### D. Validation fails\n\n1. Run:\n\n```powershell\noci session authenticate --tenancy-name \"bmc_operator_access\" --profile-name \"bmc_operator_access\" --auth security_token --region us-phoenix-1\n```\n\n2. Complete the OCNA-SAML browser sign-in.\n3. Wait for PowerShell to return to its prompt.\n4. Fully close Codex.\n5. Reopen Codex.\n6. Open the required project.\n7. Click the pencil icon to create a new task.\n8. Wait two full minutes on the blank task page.\n9. Send the Compute Admin request."
