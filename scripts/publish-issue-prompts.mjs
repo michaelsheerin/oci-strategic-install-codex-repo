@@ -25,14 +25,6 @@ function section(body, heading) {
   return (nextHeading < 0 ? content : content.slice(0, nextHeading)).trim();
 }
 
-function markdownList(value) {
-  return value
-    .split("\n")
-    .map((item) => item.replace(/^\s*[-*]\s+/, "").trim())
-    .filter(Boolean)
-    .filter((item) => item.toLowerCase() !== "none");
-}
-
 function oneLine(value) {
   return value.replace(/\s+/g, " ").trim();
 }
@@ -78,11 +70,9 @@ export function buildPromptRecord(issue) {
   const useCase = section(body, "Use case and purpose");
   const category = categoryFor(section(body, "Category"));
   const promptText = section(body, "Prompt text") || "No prompt text provided.";
-  const requiredInputs = markdownList(section(body, "Required inputs"));
+  const requiredInputs = section(body, "Required inputs");
   const expectedOutput = section(body, "Expected output and next steps");
   const additionalNotes = section(body, "Additional instructions and notes");
-  const demoRecommended = /^yes$/i.test(oneLine(section(body, "Is a demo recommended?")));
-  const demoRecording = section(body, "Demo recording");
   const contactName = section(body, "Your name");
   const contactEmail = section(body, "Your work email");
   const submittedAt = String(issue.created_at || new Date().toISOString()).slice(0, 10);
@@ -91,11 +81,9 @@ export function buildPromptRecord(issue) {
   const issueNumber = Number(issue.number);
   const relativePath = existingPath || path.posix.join("prompts", category, `prompt-${issueNumber}.md`);
   const filePath = path.join(repositoryRoot, relativePath);
-  const inputSection = requiredInputs.length ? requiredInputs.map((input) => `- ${input}`).join("\n") : "Not provided.";
+  const inputSection = requiredInputs || "Not provided.";
   const detailsRows = [
     ["Category", displayCategory(category)],
-    ["Demo recommended", demoRecommended ? "Yes" : "No"],
-    ["Demo recording", demoRecording],
     ["Submitted", submittedAt],
   ].map(([field, value]) => `| ${field} | ${tableCell(value)} |`).join("\n");
 
@@ -116,11 +104,6 @@ ${expectedOutput || "Not provided."}
 ## Additional instructions and notes
 
 ${additionalNotes || "Not provided."}
-
-## Demo
-
-- Recommended: ${demoRecommended ? "Yes" : "No"}
-- Recording: ${demoRecording || "Not provided."}
 
 ## Prompt text
 
@@ -152,8 +135,6 @@ required_inputs: ${JSON.stringify(requiredInputs)}
 expected_output: ${yaml(expectedOutput)}
 next_steps: ""
 additional_instructions_notes: ${yaml(additionalNotes)}
-demo_recommended: ${demoRecommended}
-demo_recording: ${yaml(demoRecording)}
 contact_name: ${yaml(contactName)}
 contact_email: ${yaml(contactEmail)}
 source_issue: ${yaml(sourceIssue)}

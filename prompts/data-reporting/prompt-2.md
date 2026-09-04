@@ -67,11 +67,6 @@ gold-standard-rate-card | Local   copy of the approved gold-standard data. Zero 
 3. Post the link and file location in the prompt Inputs fields.
 4. Once output is generated, sales team needs to manually reconcile CPQ with the provided discount and target net price as produced in the output Excel
 
-## Demo
-
-- Recommended: No
-- Recording: _No response_
-
 ## Prompt text
 
 ```text
@@ -364,8 +359,6 @@ Submitted directly from the Prompt Library.
 | Field | Value |
 | --- | --- |
 | Category | data-reporting |
-| Demo recommended | No |
-| Demo recording | _No response_ |
 | Submitted | 2026-08-31 |
 
 <!-- prompt-metadata
@@ -377,8 +370,6 @@ required_inputs: ["<html xmlns:o=\"urn:schemas-microsoft-com:office:office\"","x
 expected_output: "<html xmlns:o=\"urn:schemas-microsoft-com:office:office\"\nxmlns:dt=\"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882\"\nxmlns=\"http://www.w3.org/TR/REC-html40\">\n\n<head>\n\n<meta name=ProgId content=OneNote.File>\n<meta name=Generator content=\"Microsoft OneNote 15\">\n</head>\n\n<body lang=en-US style='font-family:Calibri;font-size:11.0pt'>\n<!--StartFragment-->\n\n<div style='direction:ltr'>\n\n\nExcel Tabs | Content\n-- | --\nCPQ-<CPQ_NUMBER>   reconciliation | Editable    reconciliation view containing original data from extracted CPQ rate card,    and:         Target Gold-Standard-Selling-Price that you will         reconcile to via manual edits in CPQ     The Difference in         Gold-Standard and current CPQ Selling Price (for reference only)     The target         Adjusted-Discount that you will apply manually in CPQ to reach the         target Gold-Standard-Selling-Price\nCPQ-<CPQ_NUMBER>_Rate-Card | Read-only   local extraction of the current CPQ rate card. Includes all extracted SKU   records, including zero-selling-price rows.\ngold-standard-rate-card | Local   copy of the approved gold-standard data. Zero Unit Selling Price records are   removed. Lookup Key combines SKU and Unit Qty/Range to support accurate   tiered-price matching.\n\n\n\n</div>\n\n<!--EndFragment-->\n</body>\n\n</html>"
 next_steps: ""
 additional_instructions_notes: "1. Complete prompt 'Generate Gold Standard Rate Card' prior to executing this prompt.\n2. Capture net new CPQ quote link that you are trying to reconcile the rate card for.\n3. Post the link and file location in the prompt Inputs fields.\n4. Once output is generated, sales team needs to manually reconcile CPQ with the provided discount and target net price as produced in the output Excel"
-demo_recommended: false
-demo_recording: "_No response_"
 contact_name: "Michael Sheerin"
 contact_email: "michael.sheerin@oracle.com"
 source_issue: ""

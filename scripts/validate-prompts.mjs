@@ -12,8 +12,6 @@ const requiredFields = [
   "required_inputs",
   "expected_output",
   "next_steps",
-  "demo_recommended",
-  "demo_recording",
   "contact_name",
   "contact_email",
   "last_reviewed",
@@ -25,9 +23,6 @@ for (const record of records) {
   errors.push(...record.errors.map((error) => `${relativePath}: ${error}`));
   for (const field of requiredFields) {
     if (!(field in record.metadata)) errors.push(`${relativePath}: Missing required metadata field '${field}'.`);
-  }
-  if (record.metadata.demo_recommended && !["true", "false"].includes(record.metadata.demo_recommended)) {
-    errors.push(`${relativePath}: demo_recommended must be true or false.`);
   }
   if (record.metadata.contact_email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(record.metadata.contact_email)) {
     errors.push(`${relativePath}: contact_email is not a valid email address.`);

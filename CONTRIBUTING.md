@@ -22,8 +22,6 @@ Provide the details that help another RA understand and reuse the prompt. Every 
 | Required inputs | Each input a user needs before running the prompt. Write `None` when no input is required. |
 | Expected output and next steps | What Codex should produce, how to check it, and what follows |
 | Additional instructions and notes | Extra constraints, references, edge cases, or setup details |
-| Demo recommendation | Select `Yes` when a recording would materially improve adoption |
-| Demo recording | A durable internal link, if one exists |
 | Contact | Your name and work email for questions or improvement requests |
 
 ## Content standards
@@ -33,6 +31,7 @@ Provide the details that help another RA understand and reuse the prompt. Every 
 - Write prompts that another RA can run without a separate briefing.
 - Link to relevant internal documentation when context is necessary.
 - Test the prompt before submission.
+- Long-form fields preserve plain text and support Markdown headings, bullets, bold text, and links. Pasted web links render as clickable links.
 
 ## Do not submit
 

@@ -17,11 +17,6 @@ State what Codex should return. Explain how to validate the result and what acti
 
 Add any context, constraints, setup guidance, or usage notes that help someone use this prompt.
 
-## Demo
-
-- Recommended: No
-- Recording: Not available
-
 ## Prompt text
 
 ```text
@@ -42,8 +37,6 @@ Add any context, constraints, setup guidance, or usage notes that help someone u
 | Field | Value |
 | --- | --- |
 | Category | [analysis, customer-preparation, data-reporting, project-management, research, technical-work, or writing-communication] |
-| Demo recommended | No |
-| Demo recording | Not available |
 | Last reviewed | YYYY-MM-DD |
 
 <!-- prompt-metadata
@@ -57,8 +50,6 @@ required_inputs:
 expected_output: "[What Codex should produce.]"
 next_steps: "[How the user should review or act on the output.]"
 additional_instructions_notes: "[Optional context, constraints, or usage guidance.]"
-demo_recommended: false
-demo_recording: ""
 contact_name: "[Contributor name]"
 contact_email: "[work email]"
 last_reviewed: "YYYY-MM-DD"

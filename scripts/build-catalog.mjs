@@ -37,8 +37,6 @@ const records = promptFiles(promptsRoot)
     expectedOutput: metadata.expected_output,
     nextSteps: metadata.next_steps,
     additionalInstructionsNotes: metadata.additional_instructions_notes || section(body, "Additional instructions and notes"),
-    demoRecommended: metadata.demo_recommended === "true",
-    demoRecording: metadata.demo_recording || "",
     contactName: metadata.contact_name,
     contactEmail: metadata.contact_email,
     sourceIssue: metadata.source_issue || "",

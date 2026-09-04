@@ -25,11 +25,6 @@ Review the validation report and resolve inventory or authoritative-mapping erro
 
 Requires Compute Admin MCP access and an authorized SharePoint Excel write capability. The prompt stops before writing files when authoritative mapping is unavailable and does not write a partial report.
 
-## Demo
-
-- Recommended: No
-- Recording: Not provided.
-
 ## Prompt text
 
 ```text
@@ -305,8 +300,6 @@ Submitted directly from the Prompt Library.
 | Field | Value |
 | --- | --- |
 | Category | data-reporting |
-| Demo recommended | No |
-| Demo recording | Not provided. |
 | Submitted | 2026-09-03 |
 
 <!-- prompt-metadata
@@ -318,8 +311,6 @@ required_inputs: "- Customer or report label\n- Exact pool name\n- One or more r
 expected_output: "Current-date CSV files by Global-AD and a consolidated Excel capacity workbook with Hypervisors and Summary tabs.\n\nReview the validation report and resolve inventory or authoritative-mapping errors before using the report."
 next_steps: ""
 additional_instructions_notes: "Requires Compute Admin MCP access and an authorized SharePoint Excel write capability. The prompt stops before writing files when authoritative mapping is unavailable and does not write a partial report."
-demo_recommended: false
-demo_recording: ""
 contact_name: "Michael Sheerin"
 contact_email: "michael.sheerin@oracle.com"
 source_issue: ""

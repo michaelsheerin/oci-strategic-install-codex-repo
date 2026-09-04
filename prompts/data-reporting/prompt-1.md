@@ -68,11 +68,6 @@ CPQ-Gold_to_SPA   Validation | Editable   comparison view. Includes SKU, Product
 1. Download SPA Rate Card and save it to a preferred location. This folder will be the target location for any AI-generated files, unless otherwise specified in the prompt.
 2. Navigate to and capture link of CPQ Quote where you are confident in the accuracy of the rate card.
 
-## Demo
-
-- Recommended: No
-- Recording: _No response_
-
 ## Prompt text
 
 ```text
@@ -230,8 +225,6 @@ Submitted directly from the Prompt Library.
 | Field | Value |
 | --- | --- |
 | Category | data-reporting |
-| Demo recommended | No |
-| Demo recording | _No response_ |
 | Submitted | 2026-08-31 |
 
 <!-- prompt-metadata
@@ -243,8 +236,6 @@ required_inputs: ["<html xmlns:o=\"urn:schemas-microsoft-com:office:office\"","x
 expected_output: "Excel file called Gold-Standard-Rate-Card.xlsx with following tabs:\n\n<html xmlns:o=\"urn:schemas-microsoft-com:office:office\"\nxmlns:dt=\"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882\"\nxmlns=\"http://www.w3.org/TR/REC-html40\">\n\n<head>\n\n<meta name=ProgId content=OneNote.File>\n<meta name=Generator content=\"Microsoft OneNote 15\">\n</head>\n\n<body lang=en-US style='font-family:Calibri;font-size:11.0pt'>\n<!--StartFragment-->\n\n<div style='direction:ltr'>\n\n\nExcel Tabs | Content\n-- | --\nCPQ-Gold-Standard | Read-only   source extraction from the trusted CPQ quote. Includes Product Category, SKU,   description, metric, discount fields, quantity, list price, selling price,   overage price, and LOA.\nSPA-Rate-Card_YYYY-MM-DD | SPA   source data after zero net-price rows are removed and remaining rows are   sorted by Net Unit Price in ascending order. The date reflects the source   file Date Modified value.\nCPQ-Gold_to_SPA   Validation | Editable   comparison view. Includes SKU, Product Name, Product Category,   CPQ-Selling-Price, Rate-Card-Net-Price, and CPQ-SPA-Difference. This will be   manually evaluated by sales teams to reconcile differences and edit   CPQ-Gold-Standard tab.\n\n\n\n</div>\n\n<!--EndFragment-->\n</body>\n\n</html>"
 next_steps: ""
 additional_instructions_notes: "1. Download SPA Rate Card and save it to a preferred location. This folder will be the target location for any AI-generated files, unless otherwise specified in the prompt.\n2. Navigate to and capture link of CPQ Quote where you are confident in the accuracy of the rate card."
-demo_recommended: false
-demo_recording: "_No response_"
 contact_name: "Michael Sheerin"
 contact_email: "michael.sheerin@oracle.com"
 source_issue: ""

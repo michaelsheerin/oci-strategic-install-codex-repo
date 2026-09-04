@@ -22,7 +22,7 @@ The library turns effective individual workflows into reusable team assets. Each
 
 Each prompt record is a standalone Markdown file in `prompts/<category>/`. This keeps the content readable in GitHub, gives every prompt a permanent link, and preserves revision history.
 
-The public Browse prompts page supports full-text search, category filters, demo filters, sorting, and category counts. GitHub-native browsing uses the category folders, prompt record links, and GitHub code search. Submitters do not need to edit an index or understand the folder structure.
+The public Browse prompts page supports full-text search, category filters, creator filters, sorting, and category counts. GitHub-native browsing uses the category folders, prompt record links, and GitHub code search. Submitters do not need to edit an index or understand the folder structure.
 
 | Location | Purpose |
 | --- | --- |
@@ -43,8 +43,6 @@ Prompt records retain the details supplied in the form:
 4. Required inputs
 5. Expected output and next steps
 6. Additional instructions and notes
-7. Demo recommendation
-8. Demo recording link, when available
-9. Contributor name and email
+7. Contributor name and email
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for submission guidance.
